@@ -1,0 +1,88 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{E746156F-70DB-446E-A921-661C173AFDAB}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>Algorithms</RootNamespace>
+    <AssemblyName>Algorithms</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Advanced Data Structures\BTree.cs" />
+    <Compile Include="Advanced Data Structures\BTreeNode.cs" />
+    <Compile Include="Data Structures\AVLTree.cs" />
+    <Compile Include="Data Structures\AVLTreeNode.cs" />
+    <Compile Include="Data Structures\BinarySearchTree.cs" />
+    <Compile Include="Data Structures\DoublyLinkedList.cs" />
+    <Compile Include="Data Structures\DoublyLinkedListWithSentinel.cs" />
+    <Compile Include="Data Structures\DoublyLinkedListNode.cs" />
+    <Compile Include="Data Structures\BinarySearchTreeNode.cs" />
+    <Compile Include="Data Structures\FixedSizeHashTable.cs" />
+    <Compile Include="Data Structures\IRedBlackNode.cs" />
+    <Compile Include="Data Structures\OrderStatisticTreeNode.cs" />
+    <Compile Include="Data Structures\Queue.cs" />
+    <Compile Include="Data Structures\RedBlackColor.cs" />
+    <Compile Include="Data Structures\RedBlackTree.cs" />
+    <Compile Include="Data Structures\RedBlackTreeNode.cs" />
+    <Compile Include="Dynamic Programming\LongestCommonSubsequence.cs" />
+    <Compile Include="Dynamic Programming\MatrixChainMult.cs" />
+    <Compile Include="Dynamic Programming\OptimalBinarySearchTree.cs" />
+    <Compile Include="Dynamic Programming\RodCutting.cs" />
+    <Compile Include="Sorting\BucketSortClass.cs" />
+    <Compile Include="Sorting\CountingSortClass.cs" />
+    <Compile Include="Sorting\HeapSortClass.cs" />
+    <Compile Include="Sorting\InsertionSortClass.cs" />
+    <Compile Include="Sorting\MaxSubarray.cs" />
+    <Compile Include="Sorting\MergeSortClass.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Sorting\QuickSortClass.cs" />
+    <Compile Include="Sorting\SelectionSortClass.cs" />
+    <Compile Include="Data Structures\Stack.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
