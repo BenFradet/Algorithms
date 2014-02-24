@@ -43,6 +43,8 @@
   <ItemGroup>
     <Compile Include="Advanced Data Structures\BTree.cs" />
     <Compile Include="Advanced Data Structures\BTreeNode.cs" />
+    <Compile Include="Advanced Data Structures\FibHeap.cs" />
+    <Compile Include="Advanced Data Structures\FibHeapNode.cs" />
     <Compile Include="Data Structures\AVLTree.cs" />
     <Compile Include="Data Structures\AVLTreeNode.cs" />
     <Compile Include="Data Structures\BinarySearchTree.cs" />

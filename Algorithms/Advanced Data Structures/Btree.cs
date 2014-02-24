@@ -11,7 +11,7 @@ namespace Algorithms
         public BTreeNode<T> Root { get; private set; }
         public int Degree { get; private set; }
 
-        BTree(int degree)
+        public BTree(int degree)
         {
             var x = new BTreeNode<T>(degree) { Leaf = true, KeysCount = 0 };
             Degree = degree;
