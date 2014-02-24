@@ -121,5 +121,75 @@ namespace Algorithms
                 InsertNonFull(node.Children[i], key);
             }
         }
+
+        //public void Delete(T key)
+        //{
+        //    var holder = Search(key);
+        //    if (holder != null)
+        //    {
+        //        var node = holder.Node;
+        //        int index = holder.PositionInKeys;
+        //        if (node.Leaf)
+        //        {
+        //            RemoveAt(node.Keys, index);
+        //            node.KeysCount--;
+        //            //might be leaving an empty node here
+        //        }
+        //        else
+        //        {
+        //            //node that precedes key in node x
+        //            var y = node.Children[index];
+        //            if (y.KeysCount >= Degree)
+        //            {
+
+        //            }
+        //        }
+        //    }
+        //}
+
+        //private BTreeNodeHolder<T> FindPredecessor(BTreeNode<T> node, int index)
+        //{
+        //    if (node.Leaf)
+        //    {
+        //        return new BTreeNodeHolder<T>() { PositionInKeys = index - 1, Node = node };
+        //    }
+        //    else
+        //    {
+        //        var preceedingNode = node.Children[index];
+        //        BTreeNode<T> z;
+        //        do
+        //        {
+        //            z = preceedingNode.Children[preceedingNode.KeysCount];
+        //            if (z != null)
+        //            {
+        //                preceedingNode = z;
+        //            }
+        //        } while (z != null);
+        //        return new BTreeNodeHolder<T>() 
+        //            { Node = preceedingNode, PositionInKeys = preceedingNode.KeysCount - 1 };
+        //    }
+        //}
+
+        //private BTreeNodeHolder<T> FindSuccessor(BTreeNode<T> node, int index)
+        //{
+        //    if (node.Leaf)
+        //    {
+        //        return new BTreeNodeHolder<T>() { PositionInKeys = index + 1
+        //    }
+        //}
+
+        private void RemoveAt(T[] array, int index)
+        {
+            var tmp = array;
+            array = new T[tmp.Length];
+            for (int i = 0; i < index; i++)
+            {
+                array[i] = tmp[i];
+            }
+            for (int i = index + 1; i < tmp.Length; i++)
+            {
+                array[i - 1] = tmp[i];
+            }
+        }
     }
 }
