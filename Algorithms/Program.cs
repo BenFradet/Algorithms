@@ -12,8 +12,8 @@ namespace Algorithms
 
         static void Main(string[] args)
         {
-            var mat = new MatrixChainMult();
-            int nr = mat.MemoizedMatrixChain();
+            //var mat = new MatrixChainMult();
+            //int nr = mat.MemoizedMatrixChain();
             //var lcs = new LongestCommonSubsequence<char>(new char[] { 'a', 'b', 'c', 'b', 'd', 'a', 'b' }
             //    , new char[] { 'b', 'd', 'c', 'a', 'b', 'a' });
             //var result = lcs.LCSLength();
