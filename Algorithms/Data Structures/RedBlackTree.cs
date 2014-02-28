@@ -6,21 +6,21 @@ using System.Threading.Tasks;
 
 namespace Algorithms
 {
-    public class RedBlackTree
+    public class RedBlackTree<T> where T : IComparable<T>
     {
-        private IRedBlackNode nil;
-        public IRedBlackNode Root { get; private set; }
+        private IRedBlackNode<T> nil;
+        public IRedBlackNode<T> Root { get; private set; }
 
         public RedBlackTree(bool orderStatistic = false)
         {
             if (orderStatistic)
             {
-                nil = new OrderStatisticTreeNode(-1);
-                (nil as OrderStatisticTreeNode).Size = 0;
+                nil = new OrderStatisticTreeNode<T>(default(T));
+                (nil as OrderStatisticTreeNode<T>).Size = 0;
             }
             else
             {
-                nil = new RedBlackTreeNode(-1);
+                nil = new RedBlackTreeNode<T>(default(T));
             }
             nil.Parent = null;
             nil.LeftChild = null;
@@ -29,7 +29,7 @@ namespace Algorithms
             Root = nil;
         }
 
-        public void InOrderTreeWalk(IRedBlackNode root)
+        public void InOrderTreeWalk(IRedBlackNode<T> root)
         {
             if (root != nil)
             {
@@ -39,19 +39,19 @@ namespace Algorithms
             }
         }
 
-        public void Insert(IRedBlackNode node)
+        public void Insert(IRedBlackNode<T> node)
         {
-            IRedBlackNode y = nil;
-            IRedBlackNode x = Root;
+            var y = nil;
+            var x = Root;
             while (x != nil)
             {
-                if (x is OrderStatisticTreeNode)
+                if (x is OrderStatisticTreeNode<T>)
                 {
-                    (x as OrderStatisticTreeNode).Size++;
+                    (x as OrderStatisticTreeNode<T>).Size++;
                 }
 
                 y = x;
-                if (node.Key < x.Key)
+                if (node.Key.CompareTo(x.Key) < 0)
                 {
                     x = x.LeftChild;
                 }
@@ -65,7 +65,7 @@ namespace Algorithms
             {
                 Root = node;
             }
-            else if (node.Key < y.Key)
+            else if (node.Key.CompareTo(y.Key) < 0)
             {
                 y.LeftChild = node;
             }
@@ -77,21 +77,21 @@ namespace Algorithms
             node.RightChild = nil;
             node.Color = RedBlackTreeColor.Red;
 
-            if (node is OrderStatisticTreeNode)
+            if (node is OrderStatisticTreeNode<T>)
             {
-                (node as OrderStatisticTreeNode).Size = 1;
+                (node as OrderStatisticTreeNode<T>).Size = 1;
             }
 
             InsertFixup(node);
         }
 
-        protected void InsertFixup(IRedBlackNode node)
+        protected void InsertFixup(IRedBlackNode<T> node)
         {
             while (node.Parent.Color == RedBlackTreeColor.Red)
             {
                 if (node.Parent == node.Parent.Parent.LeftChild)
                 {
-                    IRedBlackNode y = node.Parent.Parent.RightChild;
+                    var y = node.Parent.Parent.RightChild;
                     if (y.Color == RedBlackTreeColor.Red)
                     {
                         node.Parent.Color = RedBlackTreeColor.Black;
@@ -113,7 +113,7 @@ namespace Algorithms
                 }
                 else
                 {
-                    IRedBlackNode y = node.Parent.Parent.LeftChild;
+                    var y = node.Parent.Parent.LeftChild;
                     if (y.Color == RedBlackTreeColor.Red)
                     {
                         node.Parent.Color = RedBlackTreeColor.Black;
@@ -137,17 +137,17 @@ namespace Algorithms
             Root.Color = RedBlackTreeColor.Black;
         }
 
-        public void Delete(IRedBlackNode node)
+        public void Delete(IRedBlackNode<T> node)
         {
-            IRedBlackNode y = node;
+            var y = node;
             RedBlackTreeColor yOriginalColor = y.Color;
-            IRedBlackNode x;
+            IRedBlackNode<T> x;
 
-            if (y is OrderStatisticTreeNode)
+            if (y is OrderStatisticTreeNode<T>)
             {
                 while (!y.Equals(nil))
                 {
-                    (y as OrderStatisticTreeNode).Size--;
+                    (y as OrderStatisticTreeNode<T>).Size--;
                     y = y.Parent;
                 }
             }
@@ -189,13 +189,13 @@ namespace Algorithms
             }
         }
 
-        protected void DeleteFixup(IRedBlackNode node)
+        protected void DeleteFixup(IRedBlackNode<T> node)
         {
             while (node != Root && node.Color == RedBlackTreeColor.Black)
             {
                 if (node == node.Parent.LeftChild)
                 {
-                    IRedBlackNode w = node.Parent.RightChild;
+                    var w = node.Parent.RightChild;
                     if (w.Color == RedBlackTreeColor.Red)
                     {
                         w.Color = RedBlackTreeColor.Black;
@@ -226,7 +226,7 @@ namespace Algorithms
                 }
                 else
                 {
-                    IRedBlackNode w = node.Parent.LeftChild;
+                    var w = node.Parent.LeftChild;
                     if (w.Color == RedBlackTreeColor.Red)
                     {
                         w.Color = RedBlackTreeColor.Black;
@@ -259,7 +259,7 @@ namespace Algorithms
             node.Color = RedBlackTreeColor.Black;
         }
 
-        protected void Transplant(IRedBlackNode a, IRedBlackNode b)
+        protected void Transplant(IRedBlackNode<T> a, IRedBlackNode<T> b)
         {
             if (a.Parent == nil)
             {
@@ -276,9 +276,9 @@ namespace Algorithms
             b.Parent = a.Parent;
         }
 
-        protected virtual void LeftRotate(IRedBlackNode node)
+        protected virtual void LeftRotate(IRedBlackNode<T> node)
         {
-            IRedBlackNode y = node.RightChild;
+            var y = node.RightChild;
             node.RightChild = y.LeftChild;
             if (y.LeftChild != nil)
             {
@@ -300,18 +300,18 @@ namespace Algorithms
             y.LeftChild = node;
             node.Parent = y;
 
-            if (y is OrderStatisticTreeNode && node is OrderStatisticTreeNode
-                && node.LeftChild is OrderStatisticTreeNode && node.RightChild is OrderStatisticTreeNode)
+            if (y is OrderStatisticTreeNode<T> && node is OrderStatisticTreeNode<T>
+                && node.LeftChild is OrderStatisticTreeNode<T> && node.RightChild is OrderStatisticTreeNode<T>)
             {
-                (y as OrderStatisticTreeNode).Size = (node as OrderStatisticTreeNode).Size;
-                (node as OrderStatisticTreeNode).Size = (node.RightChild as OrderStatisticTreeNode).Size
-                    + (node.LeftChild as OrderStatisticTreeNode).Size + 1;
+                (y as OrderStatisticTreeNode<T>).Size = (node as OrderStatisticTreeNode<T>).Size;
+                (node as OrderStatisticTreeNode<T>).Size = (node.RightChild as OrderStatisticTreeNode<T>).Size
+                    + (node.LeftChild as OrderStatisticTreeNode<T>).Size + 1;
             }
         }
 
-        protected virtual void RightRotate(IRedBlackNode node)
+        protected virtual void RightRotate(IRedBlackNode<T> node)
         {
-            IRedBlackNode y = node.LeftChild;
+            var y = node.LeftChild;
             node.LeftChild = y.RightChild;
             if (y.RightChild != nil)
             {
@@ -333,16 +333,16 @@ namespace Algorithms
             y.RightChild = node;
             node.Parent = y;
 
-            if (y is OrderStatisticTreeNode && node is OrderStatisticTreeNode
-                && node.LeftChild is OrderStatisticTreeNode && node.RightChild is OrderStatisticTreeNode)
+            if (y is OrderStatisticTreeNode<T> && node is OrderStatisticTreeNode<T>
+                && node.LeftChild is OrderStatisticTreeNode<T> && node.RightChild is OrderStatisticTreeNode<T>)
             {
-                (y as OrderStatisticTreeNode).Size = (node as OrderStatisticTreeNode).Size;
-                (node as OrderStatisticTreeNode).Size = (node.RightChild as OrderStatisticTreeNode).Size
-                    + (node.LeftChild as OrderStatisticTreeNode).Size + 1;
+                (y as OrderStatisticTreeNode<T>).Size = (node as OrderStatisticTreeNode<T>).Size;
+                (node as OrderStatisticTreeNode<T>).Size = (node.RightChild as OrderStatisticTreeNode<T>).Size
+                    + (node.LeftChild as OrderStatisticTreeNode<T>).Size + 1;
             }
         }
 
-        public IRedBlackNode Minimum(IRedBlackNode root)
+        public IRedBlackNode<T> Minimum(IRedBlackNode<T> root)
         {
             while (root.LeftChild != nil)
             {
@@ -351,7 +351,7 @@ namespace Algorithms
             return root;
         }
 
-        public IRedBlackNode Maximum(IRedBlackNode root)
+        public IRedBlackNode<T> Maximum(IRedBlackNode<T> root)
         {
             while (root.RightChild != nil)
             {
@@ -360,14 +360,14 @@ namespace Algorithms
             return root;
         }
 
-        public OrderStatisticTreeNode Select(IRedBlackNode root, int ithSmallest)
+        public OrderStatisticTreeNode<T> Select(IRedBlackNode<T> root, int ithSmallest)
         {
-            if (root is OrderStatisticTreeNode && root.LeftChild is OrderStatisticTreeNode)
+            if (root is OrderStatisticTreeNode<T> && root.LeftChild is OrderStatisticTreeNode<T>)
             {
-                int rank = (root.LeftChild as OrderStatisticTreeNode).Size + 1;
+                int rank = (root.LeftChild as OrderStatisticTreeNode<T>).Size + 1;
                 if (ithSmallest == rank)
                 {
-                    return (root as OrderStatisticTreeNode);
+                    return (root as OrderStatisticTreeNode<T>);
                 }
                 else if (ithSmallest < rank)
                 {
@@ -384,17 +384,17 @@ namespace Algorithms
             }
         }
 
-        public int Rank(IRedBlackNode root)
+        public int Rank(IRedBlackNode<T> root)
         {
-            if (root is OrderStatisticTreeNode && root.LeftChild is OrderStatisticTreeNode)
+            if (root is OrderStatisticTreeNode<T> && root.LeftChild is OrderStatisticTreeNode<T>)
             {
-                int rank = (root.LeftChild as OrderStatisticTreeNode).Size + 1;
-                IRedBlackNode y = root;
+                int rank = (root.LeftChild as OrderStatisticTreeNode<T>).Size + 1;
+                var y = root;
                 while (y != root)
                 {
                     if (y == y.Parent.RightChild)
                     {
-                        rank += (y.Parent.LeftChild as OrderStatisticTreeNode).Size + 1;
+                        rank += (y.Parent.LeftChild as OrderStatisticTreeNode<T>).Size + 1;
                     }
                     y = y.Parent;
                 }

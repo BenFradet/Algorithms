@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Algorithms
 {
-    public interface IRedBlackNode
+    public interface IRedBlackNode<T> where T : IComparable<T>
     {
-        IRedBlackNode Parent { get; set; }
-        IRedBlackNode LeftChild { get; set; }
-        IRedBlackNode RightChild { get; set; }
+        IRedBlackNode<T> Parent { get; set; }
+        IRedBlackNode<T> LeftChild { get; set; }
+        IRedBlackNode<T> RightChild { get; set; }
         RedBlackTreeColor Color { get; set; }
-        int Key { get; set; }
+        T Key { get; set; }
     }
 }

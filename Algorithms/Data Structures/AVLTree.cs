@@ -6,20 +6,20 @@ using System.Threading.Tasks;
 
 namespace Algorithms
 {
-    public class AVLTree
+    public class AVLTree<T> where T : IComparable<T>
     {
-        private AVLTreeNode root;
+        private AVLTreeNode<T> root;
 
-        public AVLTreeNode Search(int key)
+        public AVLTreeNode<T> Search(T key)
         {
-            AVLTreeNode node = root;
+            var node = root;
             while (node != null)
             {
-                if (key < node.Key)
+                if (key.CompareTo(node.Key) < 0)
                 {
                     node = node.LeftChild;
                 }
-                else if (key > node.Key)
+                else if (key.CompareTo(node.Key) > 0)
                 {
                     node = node.RightChild;
                 }
@@ -31,23 +31,23 @@ namespace Algorithms
             return null;
         }
 
-        public void Insert(int key)
+        public void Insert(T key)
         {
             if (root == null)
             {
-                root = new AVLTreeNode() { Key = key };
+                root = new AVLTreeNode<T>() { Key = key };
             }
             else
             {
-                AVLTreeNode node = root;
+                var node = root;
                 while (node != null)
                 {
-                    if (key <= node.Key)
+                    if (key.CompareTo(node.Key) <= 0)
                     {
-                        AVLTreeNode left = node.LeftChild;
+                        var left = node.LeftChild;
                         if (left == null)
                         {
-                            node.LeftChild = new AVLTreeNode() { Key = key, Parent = node };
+                            node.LeftChild = new AVLTreeNode<T>() { Key = key, Parent = node };
                             InsertBalance(node, 1);
                             return;
                         }
@@ -58,10 +58,10 @@ namespace Algorithms
                     }
                     else
                     {
-                        AVLTreeNode right = node.RightChild;
+                        var right = node.RightChild;
                         if (right == null)
                         {
-                            node.RightChild = new AVLTreeNode() { Key = key, Parent = node };
+                            node.RightChild = new AVLTreeNode<T>() { Key = key, Parent = node };
                             InsertBalance(node, -1);
                             return;
                         }
@@ -74,7 +74,7 @@ namespace Algorithms
             }
         }
 
-        private void InsertBalance(AVLTreeNode node, int balance)
+        private void InsertBalance(AVLTreeNode<T> node, int balance)
         {
             while (node != null)
             {
@@ -108,7 +108,7 @@ namespace Algorithms
                     return;
                 }
 
-                AVLTreeNode parent = node.Parent;
+                var parent = node.Parent;
                 if (parent != null)
                 {
                     balance = parent.LeftChild == node ? 1 : -1;
@@ -117,23 +117,23 @@ namespace Algorithms
             }
         }
 
-        public bool Delete(int key)
+        public bool Delete(T key)
         {
-            AVLTreeNode node = root;
+            var node = root;
             while (node != null)
             {
-                if (key < node.Key)
+                if (key.CompareTo(node.Key) < 0)
                 {
                     node = node.LeftChild;
                 }
-                else if (key > node.Key)
+                else if (key.CompareTo(node.Key) > 0)
                 {
                     node = node.RightChild;
                 }
                 else
                 {
-                    AVLTreeNode left = node.LeftChild;
-                    AVLTreeNode right = node.RightChild;
+                    var left = node.LeftChild;
+                    var right = node.RightChild;
                     if (left == null)
                     {
                         if (right == null)
@@ -144,7 +144,7 @@ namespace Algorithms
                             }
                             else
                             {
-                                AVLTreeNode parent = node.Parent;
+                                var parent = node.Parent;
                                 if (parent.LeftChild == node)
                                 {
                                     parent.LeftChild = null;
@@ -170,10 +170,10 @@ namespace Algorithms
                     }
                     else
                     {
-                        AVLTreeNode successor = right;
+                        var successor = right;
                         if (successor.LeftChild == null)
                         {
-                            AVLTreeNode parent = node.Parent;
+                            var parent = node.Parent;
                             successor.Parent = parent;
                             successor.LeftChild = left;
                             successor.Balance = node.Balance;
@@ -204,9 +204,9 @@ namespace Algorithms
                             {
                                 successor = successor.LeftChild;
                             }
-                            AVLTreeNode parent = node.Parent;
-                            AVLTreeNode successorParent = successor.Parent;
-                            AVLTreeNode successorRight = successor.RightChild;
+                            var parent = node.Parent;
+                            var successorParent = successor.Parent;
+                            var successorRight = successor.RightChild;
                             if (successorParent.LeftChild == successor)
                             {
                                 successorParent.LeftChild = successorRight;
@@ -252,7 +252,7 @@ namespace Algorithms
             return false;
         }
 
-        private void DeleteBalance(AVLTreeNode node, int balance)
+        private void DeleteBalance(AVLTreeNode<T> node, int balance)
         {
             while (node != null)
             {
@@ -292,7 +292,7 @@ namespace Algorithms
                     return;
                 }
 
-                AVLTreeNode parent = node.Parent;
+                var parent = node.Parent;
                 if (parent != null)
                 {
                     balance = parent.LeftChild == node ? -1 : 1;
@@ -301,10 +301,10 @@ namespace Algorithms
             }
         }
 
-        private void Transplant(AVLTreeNode target, AVLTreeNode source)
+        private void Transplant(AVLTreeNode<T> target, AVLTreeNode<T> source)
         {
-            AVLTreeNode left = source.LeftChild;
-            AVLTreeNode right = source.RightChild;
+            var left = source.LeftChild;
+            var right = source.RightChild;
             target.Balance = source.Balance;
             target.Key = source.Key;
             target.LeftChild = left;
@@ -319,11 +319,11 @@ namespace Algorithms
             }
         }
 
-        private AVLTreeNode RotateLeft(AVLTreeNode node)
+        private AVLTreeNode<T> RotateLeft(AVLTreeNode<T> node)
         {
-            AVLTreeNode right = node.RightChild;
-            AVLTreeNode rightLeft = right.LeftChild;
-            AVLTreeNode parent = node.Parent;
+            var right = node.RightChild;
+            var rightLeft = right.LeftChild;
+            var parent = node.Parent;
 
             right.Parent = parent;
             right.LeftChild = node;
@@ -351,13 +351,13 @@ namespace Algorithms
             return right;
         }
 
-        private AVLTreeNode RotateLeftRight(AVLTreeNode node)
+        private AVLTreeNode<T> RotateLeftRight(AVLTreeNode<T> node)
         {
-            AVLTreeNode left = node.LeftChild;//=B
-            AVLTreeNode leftRight = left.RightChild;//=C
-            AVLTreeNode parent = node.Parent;//=x
-            AVLTreeNode leftRightRight = leftRight.RightChild;//=d
-            AVLTreeNode leftRightLeft = leftRight.LeftChild;//=c
+            var left = node.LeftChild;//=B
+            var leftRight = left.RightChild;//=C
+            var parent = node.Parent;//=x
+            var leftRightRight = leftRight.RightChild;//=d
+            var leftRightLeft = leftRight.LeftChild;//=c
 
             leftRight.Parent = parent;
             node.LeftChild = leftRightRight;
@@ -406,11 +406,11 @@ namespace Algorithms
             return leftRight;
         }
 
-        private AVLTreeNode RotateRight(AVLTreeNode node)
+        private AVLTreeNode<T> RotateRight(AVLTreeNode<T> node)
         {
-            AVLTreeNode left = node.LeftChild;
-            AVLTreeNode leftRight = left.RightChild;
-            AVLTreeNode parent = node.Parent;
+            var left = node.LeftChild;
+            var leftRight = left.RightChild;
+            var parent = node.Parent;
 
             left.Parent = parent;
             left.RightChild = node;
@@ -438,13 +438,13 @@ namespace Algorithms
             return left;
         }
 
-        private AVLTreeNode RotateRightLeft(AVLTreeNode node)
+        private AVLTreeNode<T> RotateRightLeft(AVLTreeNode<T> node)
         {
-            AVLTreeNode right = node.RightChild;
-            AVLTreeNode rightLeft = right.LeftChild;
-            AVLTreeNode parent = node.Parent;
-            AVLTreeNode rightLeftLeft = rightLeft.LeftChild;
-            AVLTreeNode rightLeftRight = rightLeft.RightChild;
+            var right = node.RightChild;
+            var rightLeft = right.LeftChild;
+            var parent = node.Parent;
+            var rightLeftLeft = rightLeft.LeftChild;
+            var rightLeftRight = rightLeft.RightChild;
 
             rightLeft.Parent = parent;
             rightLeft.LeftChild = node;

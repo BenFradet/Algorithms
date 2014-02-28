@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace Algorithms
 {
-    public class AVLTreeNode
+    public class AVLTreeNode<T> where T : IComparable<T>
     {
-        public AVLTreeNode Parent { get; set; }
-        public AVLTreeNode RightChild { get; set; }
-        public AVLTreeNode LeftChild { get; set; }
-        public int Key { get; set; }
+        public AVLTreeNode<T> Parent { get; set; }
+        public AVLTreeNode<T> RightChild { get; set; }
+        public AVLTreeNode<T> LeftChild { get; set; }
+        public T Key { get; set; }
         public int Balance { get; set; }
     }
 }

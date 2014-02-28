@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace Algorithms
 {
-    public class RedBlackTreeNode : IRedBlackNode
+    public class RedBlackTreeNode<T> : IRedBlackNode<T> where T : IComparable<T>
     {
-        public IRedBlackNode Parent { get; set; }
-        public IRedBlackNode LeftChild { get; set; }
-        public IRedBlackNode RightChild { get; set; }
+        public IRedBlackNode<T> Parent { get; set; }
+        public IRedBlackNode<T> LeftChild { get; set; }
+        public IRedBlackNode<T> RightChild { get; set; }
         public RedBlackTreeColor Color { get; set; }
-        public int Key { get; set; }
+        public T Key { get; set; }
 
-        public RedBlackTreeNode(int key)
+        public RedBlackTreeNode(T key)
         {
             Key = key;
         }

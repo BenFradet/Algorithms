@@ -6,24 +6,24 @@ using System.Threading.Tasks;
 
 namespace Algorithms
 {
-    public class DoublyLinkedList
+    public class DoublyLinkedList<T> where T : IComparable<T>
     {
-        private DoublyLinkedListNode head;
+        private DoublyLinkedListNode<T> head;
 
-        public DoublyLinkedList(DoublyLinkedListNode head)
+        public DoublyLinkedList(DoublyLinkedListNode<T> head)
         {
             this.head = head;
         }
 
-        public DoublyLinkedListNode Search(int k)
+        public DoublyLinkedListNode<T> Search(T key)
         {
-            DoublyLinkedListNode x = head;
-            while (x.key != k && x != null)
+            var x = head;
+            while (x.key.CompareTo(key) != 0 && x != null)
                 x = x.next;
             return x;
         }
 
-        public void Insert(DoublyLinkedListNode x)
+        public void Insert(DoublyLinkedListNode<T> x)
         {
             x.next = head;
             if (head != null)
@@ -32,7 +32,7 @@ namespace Algorithms
             x.prev = null;
         }
 
-        public void Delete(DoublyLinkedListNode x)
+        public void Delete(DoublyLinkedListNode<T> x)
         {
             if (x.prev != null)
                 x.prev.next = x.next;

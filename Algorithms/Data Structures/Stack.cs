@@ -6,23 +6,23 @@ using System.Threading.Tasks;
 
 namespace Algorithms
 {
-    public class Stack
+    public class Stack<T>
     {
-        private int[] array;
+        private T[] array;
         private int top;
 
         public Stack(int size)
         {
-            array = new int[size];
+            array = new T[size];
             top = -1;
         }
 
-        bool IsEmpty()
+        public bool IsEmpty()
         {
             return top == 0;
         }
 
-        void Push(int toPush)
+        public void Push(T toPush)
         {
             if (top == array.Length - 1)
                 throw new Exception("overflow");
@@ -33,7 +33,7 @@ namespace Algorithms
             }
         }
 
-        int Pop()
+        public T Pop()
         {
             if (top == -1)
                 throw new Exception("underflow");

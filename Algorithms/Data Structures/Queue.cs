@@ -6,19 +6,19 @@ using System.Threading.Tasks;
 
 namespace Algorithms
 {
-    public class Queue
+    public class Queue<T>
     {
-        private int[] array;
+        private T[] array;
         private int head, tail;
 
         public Queue(int size)
         {
-            array = new int[size];
+            array = new T[size];
             head = 0;
             tail = 0;
         }
 
-        public void Enqueue(int toEnqueue)
+        public void Enqueue(T toEnqueue)
         {
             if (head == tail + 1 || (head == 0 && tail == array.Length - 1))
                 throw new Exception("overflow");
@@ -29,13 +29,13 @@ namespace Algorithms
                 tail++;
         }
 
-        public int Dequeue()
+        public T Dequeue()
         {
             if (head == tail)
                 throw new Exception("underflow");
             else
             {
-                int toRet = array[head];
+                T toRet = array[head];
                 if (head == array.Length - 1)
                     head = 0;
                 else

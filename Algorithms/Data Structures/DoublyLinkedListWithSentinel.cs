@@ -6,32 +6,32 @@ using System.Threading.Tasks;
 
 namespace Algorithms
 {
-    public class DoublyLinkedListWithSentinel
+    public class DoublyLinkedListWithSentinel<T> where T : IComparable<T>
     {
-        DoublyLinkedListNode nil;
+        DoublyLinkedListNode<T> nil;
 
         public DoublyLinkedListWithSentinel()
         {
             nil.next = nil;
             nil.prev = nil;
-            nil.key = -1;
+            nil.key = default(T);
         }
 
-        public DoublyLinkedListNode Search(int k)
+        public DoublyLinkedListNode<T> Search(T key)
         {
-            DoublyLinkedListNode x = nil.next;
-            while (x != nil && x.key != k)
+            var x = nil.next;
+            while (x != nil && x.key.CompareTo(key) != 0)
                 x = x.next;
             return x;
         }
 
-        public void Delete(DoublyLinkedListNode x)
+        public void Delete(DoublyLinkedListNode<T> x)
         {
             x.prev.next = x.next;
             x.next.prev = x.prev;
         }
 
-        public void Insert(DoublyLinkedListNode x)
+        public void Insert(DoublyLinkedListNode<T> x)
         {
             x.next = nil.next;
             nil.next.prev = x;

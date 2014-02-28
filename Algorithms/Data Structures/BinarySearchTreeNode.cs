@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace Algorithms
 {
-    public class BinarySearchTreeNode
+    public class BinarySearchTreeNode<T> where T : IComparable<T>
     {
-        public BinarySearchTreeNode Parent { get; set; }
-        public BinarySearchTreeNode RightChild { get; set; }
-        public BinarySearchTreeNode LeftChild { get; set; }
-        public int Key { get; set; }
+        public BinarySearchTreeNode<T> Parent { get; set; }
+        public BinarySearchTreeNode<T> RightChild { get; set; }
+        public BinarySearchTreeNode<T> LeftChild { get; set; }
+        public T Key { get; set; }
 
-        public BinarySearchTreeNode(int key)
+        public BinarySearchTreeNode(T key)
         {
             Key = key;
         }

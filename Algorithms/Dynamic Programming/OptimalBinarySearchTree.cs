@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace Algorithms
 {
-    public class OptimalBinarySearchTree
+    public class OptimalBinarySearchTree<T> where T : IComparable<T>
     {
         //probability that we search for key i
         private double[] probabilities;
         //unsuccessful searches, probability that the value we're looking for is less than i
         private double[] notFoundProbabilities;
 
-        private int[] keys;
+        private T[] keys;
         
         //expected search costs in the subtree containing the values having keys between i and j
         private double[,] costs;
@@ -28,7 +28,7 @@ namespace Algorithms
         {
             probabilities = new double[] { 0, 0.15, 0.10, 0.05, 0.10, 0.20 };
             notFoundProbabilities = new double[] { 0.05, 0.10, 0.05, 0.05, 0.05, 0.10 };
-            keys = new int[MAX_SIZE];
+            keys = new T[MAX_SIZE];
         }
 
         public struct ExpectedCostsAndRootsAndWeights
@@ -84,23 +84,23 @@ namespace Algorithms
             return new ExpectedCostsAndRootsAndWeights() { ExpectedCosts = costs, Roots = roots, Weighs = weights };
         }
 
-        public class BSTNode
+        public class BSTNode<T> where T : IComparable<T>
         {
-            public BSTNode LeftChild { get; set; }
-            public BSTNode RightChild { get; set; }
-            public int Key { get; set; }
+            public BSTNode<T> LeftChild { get; set; }
+            public BSTNode<T> RightChild { get; set; }
+            public T Key { get; set; }
         }
 
-        public BSTNode ConstructTree(int i, int j)
+        public BSTNode<T> ConstructTree(int i, int j)
         {
-            BSTNode node;
+            BSTNode<T> node;
             if (i == j)
             {
                 node = null;
             }
             else
             {
-                node = new BSTNode()
+                node = new BSTNode<T>()
                 {
                     Key = keys[roots[i, j]],
                     LeftChild = ConstructTree(i, roots[i, j] - 1),
@@ -110,7 +110,7 @@ namespace Algorithms
             return node;
         }
 
-        public void Display(BSTNode root, int level)
+        public void Display(BSTNode<T> root, int level)
         {
             if (root != null)
             {

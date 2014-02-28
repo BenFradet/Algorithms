@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace Algorithms
 {
-    public class BinarySearchTree
+    public class BinarySearchTree<T> where T : IComparable<T>
     {
-        public BinarySearchTreeNode Root { get; private set; }
+        public BinarySearchTreeNode<T> Root { get; private set; }
 
-        public void InOrderTreeWalk(BinarySearchTreeNode root)
+        public void InOrderTreeWalk(BinarySearchTreeNode<T> root)
         {
             if (root != null)
             {
@@ -20,13 +20,13 @@ namespace Algorithms
             }
         }
 
-        public BinarySearchTreeNode Search(BinarySearchTreeNode root, int key)
+        public BinarySearchTreeNode<T> Search(BinarySearchTreeNode<T> root, T key)
         {
-            if (root == null || root.Key == key)
+            if (root == null || root.Key.CompareTo(key) == 0)
             {
                 return root;
             }
-            if (key < root.Key)
+            if (key.CompareTo(root.Key) < 0)
             {
                 return Search(root.LeftChild, key);
             }
@@ -36,11 +36,11 @@ namespace Algorithms
             }
         }
 
-        public BinarySearchTreeNode IterativeSearch(BinarySearchTreeNode root, int key)
+        public BinarySearchTreeNode<T> IterativeSearch(BinarySearchTreeNode<T> root, T key)
         {
-            while (root != null && key != root.Key)
+            while (root != null && key.CompareTo(root.Key) != 0)
             {
-                if (key < root.Key)
+                if (key.CompareTo(root.Key) < 0)
                 {
                     root = root.LeftChild;
                 }
@@ -52,7 +52,7 @@ namespace Algorithms
             return root;
         }
 
-        public BinarySearchTreeNode Minimum(BinarySearchTreeNode root)
+        public BinarySearchTreeNode<T> Minimum(BinarySearchTreeNode<T> root)
         {
             while (root.LeftChild != null)
             {
@@ -61,7 +61,7 @@ namespace Algorithms
             return root;
         }
 
-        public BinarySearchTreeNode Maximum(BinarySearchTreeNode root)
+        public BinarySearchTreeNode<T> Maximum(BinarySearchTreeNode<T> root)
         {
             while (root.RightChild != null)
             {
@@ -70,13 +70,13 @@ namespace Algorithms
             return root;
         }
 
-        public BinarySearchTreeNode Successor(BinarySearchTreeNode node)
+        public BinarySearchTreeNode<T> Successor(BinarySearchTreeNode<T> node)
         {
             if (node.RightChild != null)
             {
                 return Minimum(node.RightChild);
             }
-            BinarySearchTreeNode parentNode = node.Parent;
+            var parentNode = node.Parent;
             while (parentNode != null && node == parentNode.RightChild)
             {
                 node = parentNode;
@@ -85,13 +85,13 @@ namespace Algorithms
             return parentNode;
         }
 
-        public BinarySearchTreeNode Predecessor(BinarySearchTreeNode node)
+        public BinarySearchTreeNode<T> Predecessor(BinarySearchTreeNode<T> node)
         {
             if (node.LeftChild != null)
             {
                 return Maximum(node.LeftChild);
             }
-            BinarySearchTreeNode parentNode = node.Parent;
+            var parentNode = node.Parent;
             while (parentNode != null && node == parentNode.LeftChild)
             {
                 node = parentNode;
@@ -100,14 +100,14 @@ namespace Algorithms
             return parentNode;
         }
 
-        public void Insert(BinarySearchTreeNode toInsert)
+        public void Insert(BinarySearchTreeNode<T> toInsert)
         {
-            BinarySearchTreeNode y = null;
-            BinarySearchTreeNode x = Root;
+            BinarySearchTreeNode<T> y = null;
+            var x = Root;
             while (x != null)
             {
                 y = x;
-                if (toInsert.Key < x.Key)
+                if (toInsert.Key.CompareTo(x.Key) < 0)
                 {
                     x = x.LeftChild;
                 }
@@ -121,7 +121,7 @@ namespace Algorithms
             {
                 Root = toInsert;
             }
-            else if (toInsert.Key < y.Key)
+            else if (toInsert.Key.CompareTo(y.Key) < 0)
             {
                 y.LeftChild = toInsert;
             }
@@ -131,7 +131,7 @@ namespace Algorithms
             }
         }
 
-        public void Delete(BinarySearchTreeNode toDelete)
+        public void Delete(BinarySearchTreeNode<T> toDelete)
         {
             if (toDelete.LeftChild == null)
             {
@@ -143,7 +143,7 @@ namespace Algorithms
             }
             else
             {
-                BinarySearchTreeNode rightMin = Minimum(toDelete.RightChild);
+                var rightMin = Minimum(toDelete.RightChild);
                 if (rightMin.Parent != toDelete)
                 {
                     Transplant(rightMin, rightMin.RightChild);
@@ -156,7 +156,7 @@ namespace Algorithms
             }
         }
 
-        private void Transplant(BinarySearchTreeNode a, BinarySearchTreeNode b)
+        private void Transplant(BinarySearchTreeNode<T> a, BinarySearchTreeNode<T> b)
         {
             if (a.Parent == null)
             {

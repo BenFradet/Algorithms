@@ -6,13 +6,13 @@ using System.Threading.Tasks;
 
 namespace Algorithms
 {
-    public class DoublyLinkedListNode
+    public class DoublyLinkedListNode<T> where T : IComparable<T>
     {
-        public DoublyLinkedListNode prev;
-        public DoublyLinkedListNode next;
-        public int key;
+        public DoublyLinkedListNode<T> prev;
+        public DoublyLinkedListNode<T> next;
+        public T key;
 
-        public DoublyLinkedListNode(int key)
+        public DoublyLinkedListNode(T key)
         {
             this.key = key;
         }
