@@ -64,6 +64,9 @@
     <Compile Include="Dynamic Programming\MatrixChainMult.cs" />
     <Compile Include="Dynamic Programming\OptimalBinarySearchTree.cs" />
     <Compile Include="Dynamic Programming\RodCutting.cs" />
+    <Compile Include="Graph\Color.cs" />
+    <Compile Include="Graph\GraphAL.cs" />
+    <Compile Include="Graph\Vertex.cs" />
     <Compile Include="Sorting\BucketSortClass.cs" />
     <Compile Include="Sorting\CountingSortClass.cs" />
     <Compile Include="Sorting\HeapSortClass.cs" />

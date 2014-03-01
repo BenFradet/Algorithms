@@ -12,13 +12,34 @@ namespace Algorithms
 
         static void Main(string[] args)
         {
+            var r = new Vertex<char>('r');
+            var s = new Vertex<char>('s');
+            var t = new Vertex<char>('t');
+            var u = new Vertex<char>('u');
+            var v = new Vertex<char>('v');
+            var w = new Vertex<char>('w');
+            var x = new Vertex<char>('x');
+            var y = new Vertex<char>('y');
+            var vertices = new Vertex<char>[] { r, s, t, u, v, w, x, y };
+            var edges = new Dictionary<char, List<Vertex<char>>>();
+            edges['r'] = new List<Vertex<char>>() { s, v };
+            edges['s'] = new List<Vertex<char>>() { r, w };
+            edges['t'] = new List<Vertex<char>>() { w, x, u };
+            edges['u'] = new List<Vertex<char>>() { t, x, y };
+            edges['v'] = new List<Vertex<char>>() { r };
+            edges['w'] = new List<Vertex<char>>() { s, t, x };
+            edges['x'] = new List<Vertex<char>>() { w, t, u, y };
+            edges['y'] = new List<Vertex<char>>() { u, x };
+            var graph = new GraphAL<char>(vertices, edges, s);
+            graph.BreadthFirstSearch();
+            graph.PrintPath(u);
+            #region comment
             //var mat = new MatrixChainMult();
             //int nr = mat.MemoizedMatrixChain();
             //var lcs = new LongestCommonSubsequence<char>(new char[] { 'a', 'b', 'c', 'b', 'd', 'a', 'b' }
             //    , new char[] { 'b', 'd', 'c', 'a', 'b', 'a' });
             //var result = lcs.LCSLength();
             //lcs.PrintLCS(7, 6);
-            #region comment
             //var optSearchTree = new OptimalBinarySearchTree();
             //var result = optSearchTree.OptimalBST(5);
             //var matrixChainMult = new MatrixChainMult();

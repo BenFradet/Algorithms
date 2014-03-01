@@ -43,5 +43,10 @@ namespace Algorithms
                 return toRet;
             }
         }
+
+        public bool IsEmpty
+        {
+            get { return head == tail; }
+        }
     }
 }
