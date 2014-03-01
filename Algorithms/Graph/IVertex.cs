@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Algorithms
 {
-    public enum Color
+    public interface IVertex<T>
     {
-        White,
-        Gray,
-        Black
+        public Color Color { get; set; }
+        IVertex<T> Predecessor { get; set; }
+        T Data { get; set; }
     }
 }

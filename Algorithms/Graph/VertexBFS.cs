@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace Algorithms
 {
-    public class Vertex<T>
+    public class VertexBFS<T> : IVertex<T>
     {
         public Color Color { get; set; }
-        public Vertex<T> Predecessor { get; set; }
-        public int DistanceToSource { get; set; }
+        public VertexBFS<T> Predecessor { get; set; }
         public T Data { get; set; }
+        public int DistanceToSource { get; set; }
 
-        public Vertex(T data)
+        public VertexBFS(T data)
         {
             Data = data;
         }

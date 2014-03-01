@@ -8,11 +8,13 @@ namespace Algorithms
 {
     public class GraphAL<T>
     {
-        private Vertex<T>[] vertices;
-        private Dictionary<T, List<Vertex<T>>> edges;
-        private Vertex<T> source;
+        private IVertex<T>[] vertices;
+        private Dictionary<T, List<IVertex<T>>> edges;
+        private IVertex<T> source;
 
-        public GraphAL(Vertex<T>[] vertices, Dictionary<T, List<Vertex<T>>> edges, Vertex<T> source)
+        private int time;
+
+        public GraphAL(IVertex<T>[] vertices, Dictionary<T, List<IVertex<T>>> edges, IVertex<T> source)
         {
             if (!vertices.Contains(source))
             {
@@ -25,16 +27,16 @@ namespace Algorithms
 
         public void BreadthFirstSearch()
         {
-            foreach (var vertex in vertices.Except(new List<Vertex<T>>() { source }))
+            foreach (var vertex in vertices.Except(new List<IVertex<T>>() { source }))
             {
                 vertex.Color = Color.White;
-                vertex.DistanceToSource = int.MaxValue;
                 vertex.Predecessor = null;
+                (vertex as VertexBFS<T>).DistanceToSource = int.MaxValue;
             }
-            source.Color = Color.Grey;
-            source.DistanceToSource = 0;
+            source.Color = Color.Gray;
             source.Predecessor = null;
-            var queue = new Queue<Vertex<T>>(vertices.Length);
+            (source as VertexBFS<T>).DistanceToSource = 0;
+            var queue = new Queue<IVertex<T>>(vertices.Length);
             queue.Enqueue(source);
             while (!queue.IsEmpty)
             {
@@ -43,9 +45,10 @@ namespace Algorithms
                 {
                     if (adjacentVertex.Color == Color.White)
                     {
-                        adjacentVertex.Color = Color.Grey;
-                        adjacentVertex.DistanceToSource = vertex.DistanceToSource + 1;
+                        adjacentVertex.Color = Color.Gray;
                         adjacentVertex.Predecessor = vertex;
+                        (adjacentVertex as VertexBFS<T>).DistanceToSource =
+                            (vertex as VertexBFS<T>).DistanceToSource + 1;
                         queue.Enqueue(adjacentVertex);
                     }
                 }
@@ -53,7 +56,7 @@ namespace Algorithms
             }
         }
 
-        public void PrintPath(Vertex<T> vertex)
+        public void PrintPath(VertexBFS<T> vertex)
         {
             if (vertex.Equals(source))
             {
@@ -68,6 +71,34 @@ namespace Algorithms
                 PrintPath(vertex.Predecessor);
                 Console.WriteLine(vertex.ToString());
             }
+        }
+
+        public void DepthFirstSearch()
+        {
+            foreach (var vertex in vertices)
+            {
+                vertex.Color = Color.White;
+                vertex.Predecessor = null;
+            }
+            time = 0;
+        }
+
+        private void DepthFirstVisit(VertexDFS<T> vertex)
+        {
+            time++;
+            vertex.DiscoveryTime = time;
+            vertex.Color = Color.Gray;
+            foreach (var adjacentVertex in edges[vertex.Data])
+            {
+                if (adjacentVertex.Color == Color.White)
+                {
+                    adjacentVertex.Predecessor = vertex;
+                    DepthFirstVisit(adjacentVertex as VertexDFS<T>);
+                }
+            }
+            vertex.Color = Color.Black;
+            time++;
+            vertex.FinishingTime = time;
         }
     }
 }
