@@ -12,28 +12,55 @@ namespace Algorithms
 
         static void Main(string[] args)
         {
-            var r = new VertexBFS<char>('r');
-            var s = new VertexBFS<char>('s');
-            var t = new VertexBFS<char>('t');
-            var u = new VertexBFS<char>('u');
-            var v = new VertexBFS<char>('v');
-            var w = new VertexBFS<char>('w');
-            var x = new VertexBFS<char>('x');
-            var y = new VertexBFS<char>('y');
-            var vertices = new VertexBFS<char>[] { r, s, t, u, v, w, x, y };
-            var edges = new Dictionary<char, List<VertexBFS<char>>>();
-            edges['r'] = new List<VertexBFS<char>>() { s, v };
-            edges['s'] = new List<VertexBFS<char>>() { r, w };
-            edges['t'] = new List<VertexBFS<char>>() { w, x, u };
-            edges['u'] = new List<VertexBFS<char>>() { t, x, y };
-            edges['v'] = new List<VertexBFS<char>>() { r };
-            edges['w'] = new List<VertexBFS<char>>() { s, t, x };
-            edges['x'] = new List<VertexBFS<char>>() { w, t, u, y };
-            edges['y'] = new List<VertexBFS<char>>() { u, x };
-            var graph = new GraphAL<char>(vertices, edges, s);
-            graph.BreadthFirstSearch();
-            graph.PrintPath(u);
+            IVertex<string> undeshorts = new VertexDFS<string>("undershorts");
+            IVertex<string> pants = new VertexDFS<string>("pants");
+            IVertex<string> belt = new VertexDFS<string>("belt");
+            IVertex<string> jacket = new VertexDFS<string>("jacket");
+            IVertex<string> shirt = new VertexDFS<string>("shirt");
+            IVertex<string> tie = new VertexDFS<string>("tie");
+            IVertex<string> socks = new VertexDFS<string>("socks");
+            IVertex<string> shoes = new VertexDFS<string>("shoes");
+            IVertex<string> watch = new VertexDFS<string>("watch");
+            var vertices = new IVertex<string>[] { shirt, tie, jacket, belt, watch, undeshorts, pants, shoes, socks };
+            var edges = new Dictionary<string, List<IVertex<string>>>();
+            edges["undershorts"] = new List<IVertex<string>>() { pants, shoes };
+            edges["pants"] = new List<IVertex<string>>() { shoes, belt };
+            edges["belt"] = new List<IVertex<string>>() { jacket };
+            edges["shirt"] = new List<IVertex<string>>() { tie, belt };
+            edges["tie"] = new List<IVertex<string>>() { jacket };
+            edges["jacket"] = new List<IVertex<string>>();
+            edges["socks"] = new List<IVertex<string>>() { shoes };
+            edges["shoes"] = new List<IVertex<string>>();
+            edges["watch"] = new List<IVertex<string>>();
+            var graph = new GraphAL<string>(vertices, edges);
+            graph.DepthFirstSearch();
+            var list = graph.TopologicalSort();
+            foreach (var vertex in list)
+            {
+                Console.WriteLine(vertex);
+            }
             #region comment
+            //IVertex<char> r = new VertexBFS<char>('r');
+            //IVertex<char> s = new VertexBFS<char>('s');
+            //IVertex<char> t = new VertexBFS<char>('t');
+            //IVertex<char> u = new VertexBFS<char>('u');
+            //IVertex<char> v = new VertexBFS<char>('v');
+            //IVertex<char> w = new VertexBFS<char>('w');
+            //IVertex<char> x = new VertexBFS<char>('x');
+            //IVertex<char> y = new VertexBFS<char>('y');
+            //var vertices = new IVertex<char>[] { r, s, t, u, v, w, x, y };
+            //var edges = new Dictionary<char, List<IVertex<char>>>();
+            //edges['r'] = new List<IVertex<char>>() { s, v };
+            //edges['s'] = new List<IVertex<char>>() { r, w };
+            //edges['t'] = new List<IVertex<char>>() { w, x, u };
+            //edges['u'] = new List<IVertex<char>>() { t, x, y };
+            //edges['v'] = new List<IVertex<char>>() { r };
+            //edges['w'] = new List<IVertex<char>>() { s, t, x };
+            //edges['x'] = new List<IVertex<char>>() { w, t, u, y };
+            //edges['y'] = new List<IVertex<char>>() { u, x };
+            //var graph = new GraphAL<char>(vertices, edges, s);
+            //graph.BreadthFirstSearch();
+            //graph.PrintPath(u as VertexBFS<char>);
             //var mat = new MatrixChainMult();
             //int nr = mat.MemoizedMatrixChain();
             //var lcs = new LongestCommonSubsequence<char>(new char[] { 'a', 'b', 'c', 'b', 'd', 'a', 'b' }

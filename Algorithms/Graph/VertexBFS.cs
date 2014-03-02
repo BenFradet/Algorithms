@@ -9,7 +9,7 @@ namespace Algorithms
     public class VertexBFS<T> : IVertex<T>
     {
         public Color Color { get; set; }
-        public VertexBFS<T> Predecessor { get; set; }
+        public IVertex<T> Predecessor { get; set; }
         public T Data { get; set; }
         public int DistanceToSource { get; set; }
 
@@ -20,7 +20,7 @@ namespace Algorithms
 
         public override string ToString()
         {
-            return Data.ToString() + " distance: " + DistanceToSource + ", color: " + Color.ToString();
+            return Data.ToString() + ", distance: " + DistanceToSource;
         }
     }
 }

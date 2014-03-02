@@ -8,7 +8,7 @@ namespace Algorithms
 {
     public interface IVertex<T>
     {
-        public Color Color { get; set; }
+        Color Color { get; set; }
         IVertex<T> Predecessor { get; set; }
         T Data { get; set; }
     }

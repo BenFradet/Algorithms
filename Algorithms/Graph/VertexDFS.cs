@@ -9,7 +9,7 @@ namespace Algorithms
     public class VertexDFS<T> : IVertex<T>
     {
         public Color Color { get; set; }
-        public VertexBFS<T> Predecessor { get; set; }
+        public IVertex<T> Predecessor { get; set; }
         public T Data { get; set; }
         public int DiscoveryTime { get; set; }
         public int FinishingTime { get; set; }
@@ -17,6 +17,11 @@ namespace Algorithms
         public VertexDFS(T data)
         {
             Data = data;
+        }
+
+        public override string ToString()
+        {
+            return Data.ToString() + ", discovery time: " + DiscoveryTime + ", finishing time: " + FinishingTime;
         }
     }
 }

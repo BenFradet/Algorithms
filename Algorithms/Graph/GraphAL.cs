@@ -13,18 +13,28 @@ namespace Algorithms
         private IVertex<T> source;
 
         private int time;
+        private LinkedList<IVertex<T>> topologicallySortedVertices;
+
+        public GraphAL(IVertex<T>[] vertices, Dictionary<T, List<IVertex<T>>> edges)
+            : this(vertices, edges, null) { }
 
         public GraphAL(IVertex<T>[] vertices, Dictionary<T, List<IVertex<T>>> edges, IVertex<T> source)
         {
-            if (!vertices.Contains(source))
-            {
-                throw new Exception("not gonna work");
-            }
+            //needed for breadth first
+            //if (!vertices.Contains(source))
+            //{
+            //    throw new Exception("not gonna work");
+            //}
             this.vertices = vertices;
             this.edges = edges;
             this.source = source;
+
+            topologicallySortedVertices = new LinkedList<IVertex<T>>();
         }
 
+        /// <summary>
+        /// uses breadth first vertices
+        /// </summary>
         public void BreadthFirstSearch()
         {
             foreach (var vertex in vertices.Except(new List<IVertex<T>>() { source }))
@@ -68,11 +78,14 @@ namespace Algorithms
             }
             else
             {
-                PrintPath(vertex.Predecessor);
+                PrintPath(vertex.Predecessor as VertexBFS<T>);
                 Console.WriteLine(vertex.ToString());
             }
         }
 
+        /// <summary>
+        /// Uses depth first vertices
+        /// </summary>
         public void DepthFirstSearch()
         {
             foreach (var vertex in vertices)
@@ -81,6 +94,13 @@ namespace Algorithms
                 vertex.Predecessor = null;
             }
             time = 0;
+            foreach (var vertex in vertices)
+            {
+                if (vertex.Color == Color.White)
+                {
+                    DepthFirstVisit(vertex as VertexDFS<T>);
+                }
+            }
         }
 
         private void DepthFirstVisit(VertexDFS<T> vertex)
@@ -99,6 +119,24 @@ namespace Algorithms
             vertex.Color = Color.Black;
             time++;
             vertex.FinishingTime = time;
+            topologicallySortedVertices.AddFirst(vertex);
+        }
+
+        /// <summary>
+        /// The graph has to be directed and acyclic
+        /// </summary>
+        public LinkedList<IVertex<T>> TopologicalSort()
+        {
+            if (topologicallySortedVertices.Count == 0)
+            {
+                DepthFirstSearch();
+            }
+            return topologicallySortedVertices;
+        }
+
+        public void StronglyConnectedComponents()
+        {
+
         }
     }
 }
