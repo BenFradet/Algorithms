@@ -9,22 +9,24 @@ namespace Algorithms
     public class GraphAL<T>
     {
         private IVertex<T>[] vertices;
-        private Dictionary<T, List<IVertex<T>>> edges;
+        public IVertex<T>[] Vertices { get { return vertices; } }
+        private Dictionary<IVertex<T>, List<IVertex<T>>> edges;
+        public Dictionary<IVertex<T>, List<IVertex<T>>> Edges { get { return edges; } }
         private IVertex<T> source;
 
         private int time;
         private LinkedList<IVertex<T>> topologicallySortedVertices;
 
-        public GraphAL(IVertex<T>[] vertices, Dictionary<T, List<IVertex<T>>> edges)
+        public GraphAL(IVertex<T>[] vertices, Dictionary<IVertex<T>, List<IVertex<T>>> edges)
             : this(vertices, edges, null) { }
 
-        public GraphAL(IVertex<T>[] vertices, Dictionary<T, List<IVertex<T>>> edges, IVertex<T> source)
+        public GraphAL(IVertex<T>[] vertices, Dictionary<IVertex<T>, List<IVertex<T>>> edges, IVertex<T> source)
         {
             //needed for breadth first
-            //if (!vertices.Contains(source))
-            //{
-            //    throw new Exception("not gonna work");
-            //}
+            if (source != null && !vertices.Contains(source))
+            {
+                throw new Exception("not gonna work");
+            }
             this.vertices = vertices;
             this.edges = edges;
             this.source = source;
@@ -51,7 +53,7 @@ namespace Algorithms
             while (!queue.IsEmpty)
             {
                 var vertex = queue.Dequeue();
-                foreach (var adjacentVertex in edges[vertex.Data])
+                foreach (var adjacentVertex in edges[vertex])
                 {
                     if (adjacentVertex.Color == Color.White)
                     {
@@ -108,7 +110,7 @@ namespace Algorithms
             time++;
             vertex.DiscoveryTime = time;
             vertex.Color = Color.Gray;
-            foreach (var adjacentVertex in edges[vertex.Data])
+            foreach (var adjacentVertex in edges[vertex])
             {
                 if (adjacentVertex.Color == Color.White)
                 {
@@ -120,6 +122,23 @@ namespace Algorithms
             time++;
             vertex.FinishingTime = time;
             topologicallySortedVertices.AddFirst(vertex);
+        }
+
+        private void DepthFirstSearchOrdered(LinkedList<IVertex<T>> sortedByFinishingTime)
+        {
+            foreach (var vertex in vertices)
+            {
+                vertex.Color = Color.White;
+                vertex.Predecessor = null;
+            }
+            time = 0;
+            foreach (var vertex in sortedByFinishingTime)
+            {
+                if (vertex.Color == Color.White)
+                {
+                    DepthFirstVisit(vertex as VertexDFS<T>);
+                }
+            }
         }
 
         /// <summary>
@@ -134,9 +153,56 @@ namespace Algorithms
             return topologicallySortedVertices;
         }
 
-        public void StronglyConnectedComponents()
+        public Dictionary<IVertex<T>, List<IVertex<T>>> StronglyConnectedComponents()
         {
+            DepthFirstSearch();
+            var transposed = Transpose();
+            transposed.DepthFirstSearchOrdered(topologicallySortedVertices);
 
+            var dict = new Dictionary<IVertex<T>, List<IVertex<T>>>();
+            //dict.Keys = transposed.vertices.Where((v) => v.Predecessor == null);
+            foreach (var vertex in transposed.vertices)
+            {
+                if (vertex.Predecessor == null)
+                {
+                    dict[vertex] = new List<IVertex<T>>();
+                }
+            }
+            foreach (var vertex in transposed.vertices)
+            {
+                if (vertex.Predecessor != null)
+                {
+                    var list = new List<IVertex<T>>();
+                    var tmp = vertex;
+                    do
+                    {
+                        list.Add(tmp);
+                        tmp = tmp.Predecessor;
+                    } while (!dict.ContainsKey(tmp));
+                    if (dict[tmp].Count < list.Count)
+                    {
+                        dict[tmp] = list;
+                    }
+                }
+            }
+            return dict;
+        }
+
+        public GraphAL<T> Transpose()
+        {
+            var tmpEdges = new Dictionary<IVertex<T>, List<IVertex<T>>>();
+            foreach (var edge in edges)
+            {
+                foreach (var vertex in edge.Value)
+                {
+                    if (!tmpEdges.ContainsKey(vertex))
+                    {
+                        tmpEdges[vertex] = new List<IVertex<T>>();
+                    }
+                    tmpEdges[vertex].Add(edge.Key);
+                }
+            }
+            return new GraphAL<T>(vertices, tmpEdges);
         }
     }
 }
