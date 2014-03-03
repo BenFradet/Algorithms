@@ -12,27 +12,46 @@ namespace Algorithms
 
         static void Main(string[] args)
         {
-            IVertex<char> a = new VertexDFS<char>('a');
-            IVertex<char> b = new VertexDFS<char>('b');
-            IVertex<char> c = new VertexDFS<char>('c');
-            IVertex<char> d = new VertexDFS<char>('d');
-            IVertex<char> e = new VertexDFS<char>('e');
-            IVertex<char> f = new VertexDFS<char>('f');
-            IVertex<char> g = new VertexDFS<char>('g');
-            IVertex<char> h = new VertexDFS<char>('h');
-            var vertices = new IVertex<char>[] { c, g, f, h, d, b, e, a };
-            var edges = new Dictionary<IVertex<char>, List<IVertex<char>>>();
-            edges[a] = new List<IVertex<char>>() { b };
-            edges[b] = new List<IVertex<char>>() { e, f, c };
-            edges[c] = new List<IVertex<char>>() { d, g };
-            edges[d] = new List<IVertex<char>>() { c, h };
-            edges[e] = new List<IVertex<char>>() { a, f };
-            edges[f] = new List<IVertex<char>>() { g };
-            edges[g] = new List<IVertex<char>>() { f, h };
-            edges[h] = new List<IVertex<char>>() { h };
-            var graph = new GraphAL<char>(vertices, edges);
-            var dict = graph.StronglyConnectedComponents();
+            IVertex<char> a = new VertexMST<char>('a');
+            IVertex<char> b = new VertexMST<char>('b');
+            IVertex<char> c = new VertexMST<char>('c');
+            IVertex<char> d = new VertexMST<char>('d');
+            IVertex<char> e = new VertexMST<char>('e');
+            IVertex<char> f = new VertexMST<char>('f');
+            IVertex<char> g = new VertexMST<char>('g');
+            IVertex<char> h = new VertexMST<char>('h');
+            IVertex<char> i = new VertexMST<char>('i');
+            var vertices = new List<IVertex<char>>() { a, b, c, d, e, f, g, h, i };
+            var edges = new List<Edge<char>>() { new Edge<char>(a, b, 4), new Edge<char>(a, h, 8), 
+                new Edge<char>(b, h, 11), new Edge<char>(b, c, 8), new Edge<char>(h, i, 7), new Edge<char>(h, g, 1),
+                new Edge<char>(i, c, 2), new Edge<char>(c, d, 7), new Edge<char>(c, f, 4), new Edge<char>(g, f, 2),
+                new Edge<char>(d, e, 9), new Edge<char>(d, f, 14), new Edge<char>(e, f, 10) };
+            var graph = new WeightedGraphAL<char>(vertices, edges);
+            foreach (var edge in graph.MinimumSpanningTreeKruskal())
+            {
+                Console.WriteLine(edge);
+            }
             #region comment
+            //IVertex<char> a = new VertexDFS<char>('a');
+            //IVertex<char> b = new VertexDFS<char>('b');
+            //IVertex<char> c = new VertexDFS<char>('c');
+            //IVertex<char> d = new VertexDFS<char>('d');
+            //IVertex<char> e = new VertexDFS<char>('e');
+            //IVertex<char> f = new VertexDFS<char>('f');
+            //IVertex<char> g = new VertexDFS<char>('g');
+            //IVertex<char> h = new VertexDFS<char>('h');
+            //var vertices = new IVertex<char>[] { c, g, f, h, d, b, e, a };
+            //var edges = new Dictionary<IVertex<char>, List<IVertex<char>>>();
+            //edges[a] = new List<IVertex<char>>() { b };
+            //edges[b] = new List<IVertex<char>>() { e, f, c };
+            //edges[c] = new List<IVertex<char>>() { d, g };
+            //edges[d] = new List<IVertex<char>>() { c, h };
+            //edges[e] = new List<IVertex<char>>() { a, f };
+            //edges[f] = new List<IVertex<char>>() { g };
+            //edges[g] = new List<IVertex<char>>() { f, h };
+            //edges[h] = new List<IVertex<char>>() { h };
+            //var graph = new GraphAL<char>(vertices, edges);
+            //var dict = graph.StronglyConnectedComponents();
             //IVertex<char> a = new VertexDFS<char>('a');
             //IVertex<char> b = new VertexDFS<char>('b');
             //IVertex<char> c = new VertexDFS<char>('c');
