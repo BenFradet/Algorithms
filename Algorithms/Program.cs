@@ -22,15 +22,21 @@ namespace Algorithms
             IVertex<char> h = new VertexMST<char>('h');
             IVertex<char> i = new VertexMST<char>('i');
             var vertices = new List<IVertex<char>>() { a, b, c, d, e, f, g, h, i };
-            var edges = new List<Edge<char>>() { new Edge<char>(a, b, 4), new Edge<char>(a, h, 8), 
+            var edges = new List<Edge<char>>() { new Edge<char>(a, b, 4), new Edge<char>(a, h, 9), 
                 new Edge<char>(b, h, 11), new Edge<char>(b, c, 8), new Edge<char>(h, i, 7), new Edge<char>(h, g, 1),
                 new Edge<char>(i, c, 2), new Edge<char>(c, d, 7), new Edge<char>(c, f, 4), new Edge<char>(g, f, 2),
                 new Edge<char>(d, e, 9), new Edge<char>(d, f, 14), new Edge<char>(e, f, 10) };
             var graph = new WeightedGraphAL<char>(vertices, edges);
-            foreach (var edge in graph.MinimumSpanningTreeKruskal())
+            graph.MinimumSpanningTreePrim(a);
+            foreach (var edge in graph.Edges
+                .Where((ed) => ed.To.Equals(ed.From.Predecessor) || ed.From.Equals(ed.To.Predecessor)))
             {
                 Console.WriteLine(edge);
             }
+            //foreach (var edge in graph.MinimumSpanningTreeKruskal())
+            //{
+            //    Console.WriteLine(edge);
+            //}
             #region comment
             //IVertex<char> a = new VertexDFS<char>('a');
             //IVertex<char> b = new VertexDFS<char>('b');

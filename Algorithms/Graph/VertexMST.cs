@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Algorithms
 {
-    public class VertexMST<T> : IVertex<T>
+    public class VertexMST<T> : IVertex<T>, IComparable<VertexMST<T>>
     {
         public Color Color { get; set; }
         public IVertex<T> Predecessor { get; set; }
@@ -14,6 +14,8 @@ namespace Algorithms
 
         //height, number of edges in the longest path from a descendant leaf to x
         public int Rank { get; set; }
+        //for prim's algorithm
+        public int Key { get; set; }
         public IVertex<T> Parent { get; set; }
 
         public VertexMST(T data)
@@ -23,7 +25,12 @@ namespace Algorithms
 
         public override string ToString()
         {
-            return Data.ToString();
+            return Data.ToString() + Key;
+        }
+
+        public int CompareTo(VertexMST<T> other)
+        {
+            return this.Key.CompareTo(other.Key);
         }
     }
 }

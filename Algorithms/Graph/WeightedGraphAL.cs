@@ -9,7 +9,9 @@ namespace Algorithms
     public class WeightedGraphAL<T>
     {
         private List<IVertex<T>> vertices;
+        public List<IVertex<T>> Vertices { get { return vertices; } }
         private List<Edge<T>> edges;
+        public List<Edge<T>> Edges { get { return edges; } }
 
         public WeightedGraphAL(List<IVertex<T>> vertices, List<Edge<T>> edges)
         {
@@ -68,6 +70,46 @@ namespace Algorithms
                 if ((x as VertexMST<T>).Rank == (y as VertexMST<T>).Rank)
                 {
                     (y as VertexMST<T>).Rank++;
+                }
+            }
+        }
+
+        public void MinimumSpanningTreePrim(IVertex<T> root)
+        {
+            foreach (var vertex in vertices)
+            {
+                (vertex as VertexMST<T>).Key = int.MaxValue;
+                vertex.Predecessor = null;
+            }
+            (root as VertexMST<T>).Key = 0;
+            var array = vertices.OfType<VertexMST<T>>().ToArray();
+            HeapSortClass<VertexMST<T>>.BuildMinHeap(array);
+            //pretty careless
+            while (!HeapSortClass<VertexMST<T>>.IsEmpty)
+            {
+                //had to call heapify before extract min since it's not a min heap anymore due to the change of keys
+                HeapSortClass<VertexMST<T>>.MinHeapify(array, 0);
+                var min = HeapSortClass<VertexMST<T>>.HeapExtractMin(array);
+                foreach (var edge in edges.Where((e) => e.From.Equals(min) || e.To.Equals(min)))
+                {
+                    if (edge.To.Equals(min))
+                    {
+                        if (HeapSortClass<VertexMST<T>>.Contains(array, edge.From as VertexMST<T>) 
+                            && edge.Weight < (edge.From as VertexMST<T>).Key)
+                        {
+                            edge.From.Predecessor = min;
+                            (edge.From as VertexMST<T>).Key = edge.Weight;
+                        }
+                    }
+                    else
+                    {
+                        if (HeapSortClass<VertexMST<T>>.Contains(array, edge.To as VertexMST<T>) 
+                            && edge.Weight < (edge.To as VertexMST<T>).Key)
+                        {
+                            edge.To.Predecessor = min;
+                            (edge.To as VertexMST<T>).Key = edge.Weight;
+                        }
+                    }
                 }
             }
         }
