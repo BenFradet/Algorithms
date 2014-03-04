@@ -74,6 +74,7 @@
     <Compile Include="Graph\VertexBFS.cs" />
     <Compile Include="Graph\VertexDFS.cs" />
     <Compile Include="Graph\VertexMST.cs" />
+    <Compile Include="Graph\VertexSSSP.cs" />
     <Compile Include="Graph\WeightedGraphAL.cs" />
     <Compile Include="Sorting\BucketSortClass.cs" />
     <Compile Include="Sorting\CountingSortClass.cs" />

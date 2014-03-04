@@ -8,7 +8,6 @@ namespace Algorithms
 {
     public class VertexMST<T> : IVertex<T>, IComparable<VertexMST<T>>
     {
-        public Color Color { get; set; }
         public IVertex<T> Predecessor { get; set; }
         public T Data { get; set; }
 

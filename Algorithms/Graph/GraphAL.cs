@@ -39,13 +39,13 @@ namespace Algorithms
         /// </summary>
         public void BreadthFirstSearch()
         {
-            foreach (var vertex in vertices.Except(new List<IVertex<T>>() { source }))
+            foreach (var vertex in vertices.Except(new List<IVertex<T>>() { source }).OfType<VertexBFS<T>>())
             {
                 vertex.Color = Color.White;
                 vertex.Predecessor = null;
-                (vertex as VertexBFS<T>).DistanceToSource = int.MaxValue;
+                vertex.DistanceToSource = int.MaxValue;
             }
-            source.Color = Color.Gray;
+            (source as VertexBFS<T>).Color = Color.Gray;
             source.Predecessor = null;
             (source as VertexBFS<T>).DistanceToSource = 0;
             var queue = new Queue<IVertex<T>>(vertices.Length);
@@ -53,18 +53,17 @@ namespace Algorithms
             while (!queue.IsEmpty)
             {
                 var vertex = queue.Dequeue();
-                foreach (var adjacentVertex in edges[vertex])
+                foreach (var adjacentVertex in edges[vertex].OfType<VertexBFS<T>>())
                 {
                     if (adjacentVertex.Color == Color.White)
                     {
                         adjacentVertex.Color = Color.Gray;
                         adjacentVertex.Predecessor = vertex;
-                        (adjacentVertex as VertexBFS<T>).DistanceToSource =
-                            (vertex as VertexBFS<T>).DistanceToSource + 1;
+                        adjacentVertex.DistanceToSource = (vertex as VertexBFS<T>).DistanceToSource + 1;
                         queue.Enqueue(adjacentVertex);
                     }
                 }
-                vertex.Color = Color.Black;
+                (vertex as VertexBFS<T>).Color = Color.Black;
             }
         }
 
@@ -90,13 +89,13 @@ namespace Algorithms
         /// </summary>
         public void DepthFirstSearch()
         {
-            foreach (var vertex in vertices)
+            foreach (var vertex in vertices.OfType<VertexDFS<T>>())
             {
                 vertex.Color = Color.White;
                 vertex.Predecessor = null;
             }
             time = 0;
-            foreach (var vertex in vertices)
+            foreach (var vertex in vertices.OfType<VertexDFS<T>>())
             {
                 if (vertex.Color == Color.White)
                 {
@@ -110,7 +109,7 @@ namespace Algorithms
             time++;
             vertex.DiscoveryTime = time;
             vertex.Color = Color.Gray;
-            foreach (var adjacentVertex in edges[vertex])
+            foreach (var adjacentVertex in edges[vertex].OfType<VertexDFS<T>>())
             {
                 if (adjacentVertex.Color == Color.White)
                 {
@@ -126,13 +125,13 @@ namespace Algorithms
 
         private void DepthFirstSearchOrdered(LinkedList<IVertex<T>> sortedByFinishingTime)
         {
-            foreach (var vertex in vertices)
+            foreach (var vertex in vertices.OfType<VertexDFS<T>>())
             {
                 vertex.Color = Color.White;
                 vertex.Predecessor = null;
             }
             time = 0;
-            foreach (var vertex in sortedByFinishingTime)
+            foreach (var vertex in sortedByFinishingTime.OfType<VertexDFS<T>>())
             {
                 if (vertex.Color == Color.White)
                 {
