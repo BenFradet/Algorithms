@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Algorithms
 {
-    public class FibHeapNode<T> where T : IComparable<T>, new()
+    public class FibHeapNode<T> where T : IComparable<T>
     {
         public FibHeapNode<T> Child { get; set; }
         public FibHeapNode<T> Parent { get; set; }

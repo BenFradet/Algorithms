@@ -29,7 +29,7 @@ namespace Algorithms
 
         public int CompareTo(VertexMST<T> other)
         {
-            return this.Key.CompareTo(other.Key);
+            return Key.CompareTo(other.Key);
         }
     }
 }

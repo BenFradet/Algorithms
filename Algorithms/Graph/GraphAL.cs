@@ -84,9 +84,7 @@ namespace Algorithms
             }
         }
 
-        /// <summary>
-        /// Uses depth first vertices
-        /// </summary>
+        /// uses depth first vertices
         public void DepthFirstSearch()
         {
             foreach (var vertex in vertices.OfType<VertexDFS<T>>())

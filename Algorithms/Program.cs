@@ -18,17 +18,27 @@ namespace Algorithms
             IVertex<char> y = new VertexSSSP<char>('y');
             IVertex<char> z = new VertexSSSP<char>('z');
             var vertices = new List<IVertex<char>>() { s, t, x, y, z };
-            var edges = new List<Edge<char>>() { new Edge<char>(s, t, 6), new Edge<char>(s, y, 7), 
-                new Edge<char>(t, x, 5), new Edge<char>(t, z, -4), new Edge<char>(t, y, 8), new Edge<char>(y, x, -3), 
-                new Edge<char>(y, z, 9), new Edge<char>(x, t, -2), new Edge<char>(z, x, 7), new Edge<char>(z, s, 2) };
+            //for bellman
+            //var edges = new List<Edge<char>>() { new Edge<char>(s, t, 6), new Edge<char>(s, y, 7), 
+            //    new Edge<char>(t, x, 5), new Edge<char>(t, z, -4), new Edge<char>(t, y, 8), new Edge<char>(y, x, -3), 
+            //    new Edge<char>(y, z, 9), new Edge<char>(x, t, -2), new Edge<char>(z, x, 7), new Edge<char>(z, s, 2) };
+            //for dijkstra
+            var edges = new List<Edge<char>>() { new Edge<char>(s, t, 10), new Edge<char>(s, y, 5), 
+                new Edge<char>(t, x, 1), new Edge<char>(t, y, 2), new Edge<char>(x, z, 4), new Edge<char>(y, x, 9), 
+                new Edge<char>(y, t, 3), new Edge<char>(y, z, 2), new Edge<char>(z, x, 6), new Edge<char>(z, s, 7) };
             var graph = new WeightedGraphAL<char>(vertices, edges);
-            if (graph.BellmanFord(s))
+            graph.Dijkstra(s);
+            foreach (var vertex in graph.Vertices)
             {
-                foreach (var vertex in graph.Vertices)
-                {
-                    Console.WriteLine(vertex);
-                }
+                Console.WriteLine(vertex);
             }
+            //if (graph.BellmanFord(s))
+            //{
+            //    foreach (var vertex in graph.Vertices)
+            //    {
+            //        Console.WriteLine(vertex);
+            //    }
+            //}
             #region comment
             //IVertex<char> a = new VertexMST<char>('a');
             //IVertex<char> b = new VertexMST<char>('b');

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Algorithms
 {
-    public class VertexSSSP<T> : IVertex<T>
+    public class VertexSSSP<T> : IVertex<T>, IComparable<VertexSSSP<T>>
     {
         public IVertex<T> Predecessor { get; set; }
         public T Data { get; set; }
@@ -21,6 +21,11 @@ namespace Algorithms
         public override string ToString()
         {
             return Data.ToString() + ", shortest path estimate: " + ShortestPathEstimate;
+        }
+
+        public int CompareTo(VertexSSSP<T> other)
+        {
+            return ShortestPathEstimate.CompareTo(other.ShortestPathEstimate);
         }
     }
 }

@@ -6,11 +6,13 @@ using System.Threading.Tasks;
 
 namespace Algorithms
 {
-    public class FibHeap<T> where T : IComparable<T>, new()
+    public class FibHeap<T> where T : IComparable<T>
     {
         private double phi = (1 + Math.Sqrt(5)) / 2;
         private FibHeapNode<T> min;
         private int nodeCount;
+
+        public bool IsEmpty { get { return nodeCount == 0; } }
 
         public FibHeap()
         {

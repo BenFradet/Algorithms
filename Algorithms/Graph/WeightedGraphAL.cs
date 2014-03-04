@@ -143,6 +143,17 @@ namespace Algorithms
             }
         }
 
+        private bool RelaxWithoutUpdatingPath(IVertex<T> u, IVertex<T> v, int weight)
+        {
+            if ((v as VertexSSSP<T>).ShortestPathEstimate > (u as VertexSSSP<T>).ShortestPathEstimate + weight)
+            {
+                v.Predecessor = u;
+                return true;
+            }
+            return false;
+        }
+
+        //can have negative cycles
         public bool BellmanFord(IVertex<T> source)
         {
             Initialize(source);
@@ -162,6 +173,34 @@ namespace Algorithms
                 }
             }
             return true;
+        }
+
+        //edges' weights cannot be negative
+        public void Dijkstra(IVertex<T> source)
+        {
+            Initialize(source);
+            //var set = new List<VertexSSSP<T>>();
+            var heap = new MinHeap<VertexSSSP<T>>(vertices.Count, vertices.OfType<VertexSSSP<T>>().ToArray());
+            while (!heap.IsEmpty)
+            {
+                //had to
+                heap.Build();
+                var vertex = heap.Extract();
+                //set.Add(node.Key);
+                foreach (var edge in edges.Where((e) => e.From.Equals(vertex)))
+                {
+                    //if (RelaxWithoutUpdatingPath(edge.From, edge.To, edge.Weight))
+                    //{
+                    //    heap.DecreaseKey(node.Child, 
+                    //        new VertexSSSP<T>(edge.To.Data) 
+                    //        { 
+                    //            Predecessor = edge.To.Predecessor, 
+                    //            ShortestPathEstimate = (edge.From as VertexSSSP<T>).ShortestPathEstimate + edge.Weight 
+                    //        });
+                    //}
+                    Relax(edge.From, edge.To, edge.Weight);
+                }
+            }
         }
         #endregion
     }
