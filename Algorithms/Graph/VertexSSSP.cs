@@ -11,11 +11,13 @@ namespace Algorithms
         public IVertex<T> Predecessor { get; set; }
         public T Data { get; set; }
 
+        public bool Visited { get; set; }
         public int ShortestPathEstimate { get; set; }
 
         public VertexSSSP(T data)
         {
             Data = data;
+            Visited = false;
         }
 
         public override string ToString()

@@ -83,9 +83,7 @@ namespace Algorithms
                 vertex.Predecessor = null;
             }
             root.Key = 0;
-            var array = vertices.OfType<VertexMST<T>>().ToArray();
-            var heap = new MinHeap<VertexMST<T>>(array.Count(), array);
-            //pretty careless
+            var heap = new MinHeap<VertexMST<T>>(vertices.Count, vertices.OfType<VertexMST<T>>().ToArray());
             while (!heap.IsEmpty)
             {
                 //had to call heapify before extract min since it's not a min heap anymore due to the change of keys
@@ -100,7 +98,6 @@ namespace Algorithms
                             && edge.Weight < (edge.From as VertexMST<T>).Key)
                         {
                             edge.From.Predecessor = min;
-                            //replace by changekey
                             (edge.From as VertexMST<T>).Key = edge.Weight;
                         }
                     }
@@ -110,7 +107,6 @@ namespace Algorithms
                             && edge.Weight < (edge.To as VertexMST<T>).Key)
                         {
                             edge.To.Predecessor = min;
-                            //replace by changekey
                             (edge.To as VertexMST<T>).Key = edge.Weight;
                         }
                     }
@@ -180,25 +176,21 @@ namespace Algorithms
         {
             Initialize(source);
             //var set = new List<VertexSSSP<T>>();
-            var heap = new MinHeap<VertexSSSP<T>>(vertices.Count, vertices.OfType<VertexSSSP<T>>().ToArray());
+            var heap = new MinHeap<VertexSSSP<T>>(vertices.Count + edges.Count);
+            heap.Insert(source as VertexSSSP<T>);
             while (!heap.IsEmpty)
             {
-                //had to
-                heap.Build();
                 var vertex = heap.Extract();
+                if (vertex.Visited)
+                {
+                    continue;
+                }
+                vertex.Visited = true;
                 //set.Add(node.Key);
                 foreach (var edge in edges.Where((e) => e.From.Equals(vertex)))
-                {
-                    //if (RelaxWithoutUpdatingPath(edge.From, edge.To, edge.Weight))
-                    //{
-                    //    heap.DecreaseKey(node.Child, 
-                    //        new VertexSSSP<T>(edge.To.Data) 
-                    //        { 
-                    //            Predecessor = edge.To.Predecessor, 
-                    //            ShortestPathEstimate = (edge.From as VertexSSSP<T>).ShortestPathEstimate + edge.Weight 
-                    //        });
-                    //}
+                {                    
                     Relax(edge.From, edge.To, edge.Weight);
+                    heap.Insert(edge.To as VertexSSSP<T>);
                 }
             }
         }
