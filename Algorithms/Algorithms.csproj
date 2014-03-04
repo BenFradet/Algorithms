@@ -54,7 +54,10 @@
     <Compile Include="Data Structures\DoublyLinkedListNode.cs" />
     <Compile Include="Data Structures\BinarySearchTreeNode.cs" />
     <Compile Include="Data Structures\FixedSizeHashTable.cs" />
+    <Compile Include="Data Structures\Heap.cs" />
     <Compile Include="Data Structures\IRedBlackNode.cs" />
+    <Compile Include="Data Structures\MaxHeap.cs" />
+    <Compile Include="Data Structures\MinHeap.cs" />
     <Compile Include="Data Structures\OrderStatisticTreeNode.cs" />
     <Compile Include="Data Structures\Queue.cs" />
     <Compile Include="Data Structures\RedBlackColor.cs" />
@@ -74,7 +77,6 @@
     <Compile Include="Graph\WeightedGraphAL.cs" />
     <Compile Include="Sorting\BucketSortClass.cs" />
     <Compile Include="Sorting\CountingSortClass.cs" />
-    <Compile Include="Sorting\HeapSortClass.cs" />
     <Compile Include="Sorting\InsertionSortClass.cs" />
     <Compile Include="Sorting\MaxSubarray.cs" />
     <Compile Include="Sorting\MergeSortClass.cs" />

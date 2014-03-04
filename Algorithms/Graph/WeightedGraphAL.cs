@@ -83,18 +83,19 @@ namespace Algorithms
             }
             (root as VertexMST<T>).Key = 0;
             var array = vertices.OfType<VertexMST<T>>().ToArray();
-            HeapSortClass<VertexMST<T>>.BuildMinHeap(array);
+            var heap = new MinHeap<VertexMST<T>>(array.Count(), array);
             //pretty careless
-            while (!HeapSortClass<VertexMST<T>>.IsEmpty)
+            while (!heap.IsEmpty)
             {
                 //had to call heapify before extract min since it's not a min heap anymore due to the change of keys
-                HeapSortClass<VertexMST<T>>.MinHeapify(array, 0);
-                var min = HeapSortClass<VertexMST<T>>.HeapExtractMin(array);
+                //instead of decrease key
+                heap.Heapify(0);
+                var min = heap.Extract();
                 foreach (var edge in edges.Where((e) => e.From.Equals(min) || e.To.Equals(min)))
                 {
                     if (edge.To.Equals(min))
                     {
-                        if (HeapSortClass<VertexMST<T>>.Contains(array, edge.From as VertexMST<T>) 
+                        if (heap.Contains(edge.From as VertexMST<T>) 
                             && edge.Weight < (edge.From as VertexMST<T>).Key)
                         {
                             edge.From.Predecessor = min;
@@ -103,7 +104,7 @@ namespace Algorithms
                     }
                     else
                     {
-                        if (HeapSortClass<VertexMST<T>>.Contains(array, edge.To as VertexMST<T>) 
+                        if (heap.Contains(edge.To as VertexMST<T>) 
                             && edge.Weight < (edge.To as VertexMST<T>).Key)
                         {
                             edge.To.Predecessor = min;
