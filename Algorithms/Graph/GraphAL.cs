@@ -33,10 +33,8 @@ namespace Algorithms
 
             topologicallySortedVertices = new LinkedList<IVertex<T>>();
         }
-
-        /// <summary>
-        /// uses breadth first vertices
-        /// </summary>
+        
+        /// uses breadth first vertices-
         public void BreadthFirstSearch()
         {
             foreach (var vertex in vertices.Except(new List<IVertex<T>>() { source }).OfType<VertexBFS<T>>())

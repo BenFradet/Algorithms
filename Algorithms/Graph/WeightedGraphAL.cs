@@ -12,6 +12,7 @@ namespace Algorithms
         public List<IVertex<T>> Vertices { get { return vertices; } }
         private List<Edge<T>> edges;
         public List<Edge<T>> Edges { get { return edges; } }
+        private int time;
 
         public WeightedGraphAL(List<IVertex<T>> vertices, List<Edge<T>> edges)
         {
@@ -124,7 +125,8 @@ namespace Algorithms
             }
             foreach (var vertex in vertices.OfType<VertexSSSP<T>>())
             {
-                vertex.ShortestPathEstimate = int.MaxValue;
+                //- 200 is needed because otherwise int.maxValue + 1 = int.minValue
+                vertex.ShortestPathEstimate = int.MaxValue - 200;
                 vertex.Predecessor = null;
             }
             (source as VertexSSSP<T>).ShortestPathEstimate = 0;
@@ -137,16 +139,6 @@ namespace Algorithms
                 (v as VertexSSSP<T>).ShortestPathEstimate = (u as VertexSSSP<T>).ShortestPathEstimate + weight;
                 v.Predecessor = u;
             }
-        }
-
-        private bool RelaxWithoutUpdatingPath(IVertex<T> u, IVertex<T> v, int weight)
-        {
-            if ((v as VertexSSSP<T>).ShortestPathEstimate > (u as VertexSSSP<T>).ShortestPathEstimate + weight)
-            {
-                v.Predecessor = u;
-                return true;
-            }
-            return false;
         }
 
         //can have negative cycles
@@ -193,6 +185,46 @@ namespace Algorithms
                     heap.Insert(edge.To as VertexSSSP<T>);
                 }
             }
+        }
+
+        //dag
+        public void DagShortestPaths(IVertex<T> source)
+        {
+            var stack = TopologicalSort();
+            Initialize(source);
+            foreach (var vertex in stack)
+            {
+                foreach (var edge in edges.Where((e) => e.From.Equals(vertex)))
+                {
+                    Relax(edge.From, edge.To, edge.Weight);
+                }
+            }
+        }
+
+        private Stack<VertexSSSP<T>> TopologicalSort()
+        {
+            var stack = new Stack<VertexSSSP<T>>(vertices.Count);
+            foreach (var vertex in vertices)
+            {
+                if (!(vertex as VertexSSSP<T>).Visited)
+                {
+                    TopologicalSortVisit(vertex as VertexSSSP<T>, stack);
+                }
+            }
+            return stack;
+        }
+
+        private void TopologicalSortVisit(VertexSSSP<T> vertex, Stack<VertexSSSP<T>> stack)
+        {
+            vertex.Visited = true;
+            foreach(var edge in edges.Where((e) => e.From.Equals(vertex)))
+            {
+                if (!(edge.To as VertexSSSP<T>).Visited)
+                {
+                    TopologicalSortVisit(edge.To as VertexSSSP<T>, stack);
+                }
+            }
+            stack.Push(vertex);
         }
         #endregion
     }

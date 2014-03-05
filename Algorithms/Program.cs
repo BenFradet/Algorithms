@@ -12,12 +12,17 @@ namespace Algorithms
 
         static void Main(string[] args)
         {
-            //IVertex<char> s = new VertexSSSP<char>('s');
-            //IVertex<char> t = new VertexSSSP<char>('t');
-            //IVertex<char> x = new VertexSSSP<char>('x');
-            //IVertex<char> y = new VertexSSSP<char>('y');
-            //IVertex<char> z = new VertexSSSP<char>('z');
-            //var vertices = new List<IVertex<char>>() { s, t, x, y, z };
+            IVertex<char> r = new VertexSSSP<char>('r');
+            IVertex<char> s = new VertexSSSP<char>('s');
+            IVertex<char> t = new VertexSSSP<char>('t');
+            IVertex<char> x = new VertexSSSP<char>('x');
+            IVertex<char> y = new VertexSSSP<char>('y');
+            IVertex<char> z = new VertexSSSP<char>('z');
+            var vertices = new List<IVertex<char>>() { r, s, t, x, y, z };
+            //for dag
+            var edges = new List<Edge<char>>() { new Edge<char>(r, s, 5), new Edge<char>(r, t, 3),
+                new Edge<char>(s, x, 6), new Edge<char>(s, t, 2), new Edge<char>(t, x, 7), new Edge<char>(t, y, 5),
+                new Edge<char>(t, z, 2), new Edge<char>(x, z, 1), new Edge<char>(x, y, -1), new Edge<char>(y, z, -2) };
             //for bellman
             //var edges = new List<Edge<char>>() { new Edge<char>(s, t, 6), new Edge<char>(s, y, 7), 
             //    new Edge<char>(t, x, 5), new Edge<char>(t, z, -4), new Edge<char>(t, y, 8), new Edge<char>(y, x, -3), 
@@ -26,41 +31,42 @@ namespace Algorithms
             //var edges = new List<Edge<char>>() { new Edge<char>(s, t, 10), new Edge<char>(s, y, 5), 
             //    new Edge<char>(t, x, 1), new Edge<char>(t, y, 2), new Edge<char>(x, z, 4), new Edge<char>(y, x, 9), 
             //    new Edge<char>(y, t, 3), new Edge<char>(y, z, 2), new Edge<char>(z, x, 6), new Edge<char>(z, s, 7) };
-            //var graph = new WeightedGraphAL<char>(vertices, edges);
+            var graph = new WeightedGraphAL<char>(vertices, edges);
             //graph.Dijkstra(s);
-            //foreach (var vertex in graph.Vertices)
-            //{
-            //    Console.WriteLine(vertex);
-            //}
+            graph.DagShortestPaths(s);
+            foreach (var vertex in graph.Vertices)
+            {
+                Console.WriteLine(vertex);
+            }
             //if (graph.BellmanFord(s))
             //{
             //    foreach (var vertex in graph.Vertices)
             //    {
             //        Console.WriteLine(vertex);
             //    }
-            //}
+            //}            
             #region comment
-            IVertex<char> a = new VertexMST<char>('a');
-            IVertex<char> b = new VertexMST<char>('b');
-            IVertex<char> c = new VertexMST<char>('c');
-            IVertex<char> d = new VertexMST<char>('d');
-            IVertex<char> e = new VertexMST<char>('e');
-            IVertex<char> f = new VertexMST<char>('f');
-            IVertex<char> g = new VertexMST<char>('g');
-            IVertex<char> h = new VertexMST<char>('h');
-            IVertex<char> i = new VertexMST<char>('i');
-            var vertices = new List<IVertex<char>>() { a, b, c, d, e, f, g, h, i };
-            var edges = new List<Edge<char>>() { new Edge<char>(a, b, 4), new Edge<char>(a, h, 9), 
-                new Edge<char>(b, h, 11), new Edge<char>(b, c, 8), new Edge<char>(h, i, 7), new Edge<char>(h, g, 1),
-                new Edge<char>(i, c, 2), new Edge<char>(c, d, 7), new Edge<char>(c, f, 4), new Edge<char>(g, f, 2),
-                new Edge<char>(d, e, 9), new Edge<char>(d, f, 14), new Edge<char>(e, f, 10) };
-            var graph = new WeightedGraphAL<char>(vertices, edges);
-            graph.MinimumSpanningTreePrim(a as VertexMST<char>);
-            foreach (var edge in graph.Edges
-                .Where((ed) => ed.To.Equals(ed.From.Predecessor) || ed.From.Equals(ed.To.Predecessor)))
-            {
-                Console.WriteLine(edge);
-            }
+            //IVertex<char> a = new VertexMST<char>('a');
+            //IVertex<char> b = new VertexMST<char>('b');
+            //IVertex<char> c = new VertexMST<char>('c');
+            //IVertex<char> d = new VertexMST<char>('d');
+            //IVertex<char> e = new VertexMST<char>('e');
+            //IVertex<char> f = new VertexMST<char>('f');
+            //IVertex<char> g = new VertexMST<char>('g');
+            //IVertex<char> h = new VertexMST<char>('h');
+            //IVertex<char> i = new VertexMST<char>('i');
+            //var vertices = new List<IVertex<char>>() { a, b, c, d, e, f, g, h, i };
+            //var edges = new List<Edge<char>>() { new Edge<char>(a, b, 4), new Edge<char>(a, h, 9), 
+            //    new Edge<char>(b, h, 11), new Edge<char>(b, c, 8), new Edge<char>(h, i, 7), new Edge<char>(h, g, 1),
+            //    new Edge<char>(i, c, 2), new Edge<char>(c, d, 7), new Edge<char>(c, f, 4), new Edge<char>(g, f, 2),
+            //    new Edge<char>(d, e, 9), new Edge<char>(d, f, 14), new Edge<char>(e, f, 10) };
+            //var graph = new WeightedGraphAL<char>(vertices, edges);
+            //graph.MinimumSpanningTreePrim(a as VertexMST<char>);
+            //foreach (var edge in graph.Edges
+            //    .Where((ed) => ed.To.Equals(ed.From.Predecessor) || ed.From.Equals(ed.To.Predecessor)))
+            //{
+            //    Console.WriteLine(edge);
+            //}
             //foreach (var edge in graph.MinimumSpanningTreeKruskal())
             //{
             //    Console.WriteLine(edge);

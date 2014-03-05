@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Algorithms
 {
-    public class Stack<T>
+    public class Stack<T> : IEnumerable<T>
     {
         private T[] array;
         private int top;
@@ -17,9 +17,9 @@ namespace Algorithms
             top = -1;
         }
 
-        public bool IsEmpty()
+        public bool IsEmpty
         {
-            return top == 0;
+            get { return top == -1; }
         }
 
         public void Push(T toPush)
@@ -42,6 +42,21 @@ namespace Algorithms
                 top--;
                 return array[top + 1];
             }
+        }
+
+        public IEnumerator<T> GetEnumerator()
+        {
+            int i = top;
+            while (i >= 0)
+            {
+                yield return array[i];
+                i--;
+            }
+        }
+
+        System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
+        {
+            return GetEnumerator();
         }
     }
 }

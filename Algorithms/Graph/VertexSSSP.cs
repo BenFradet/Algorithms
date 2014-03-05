@@ -22,7 +22,7 @@ namespace Algorithms
 
         public override string ToString()
         {
-            return Data.ToString() + ", shortest path estimate: " + ShortestPathEstimate;
+            return Data.ToString() + ", visited: " + Visited + ", shortest path estimate: " + ShortestPathEstimate;
         }
 
         public int CompareTo(VertexSSSP<T> other)
