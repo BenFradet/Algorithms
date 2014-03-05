@@ -12,17 +12,28 @@ namespace Algorithms
 
         static void Main(string[] args)
         {
-            IVertex<char> r = new VertexSSSP<char>('r');
-            IVertex<char> s = new VertexSSSP<char>('s');
-            IVertex<char> t = new VertexSSSP<char>('t');
-            IVertex<char> x = new VertexSSSP<char>('x');
-            IVertex<char> y = new VertexSSSP<char>('y');
-            IVertex<char> z = new VertexSSSP<char>('z');
-            var vertices = new List<IVertex<char>>() { r, s, t, x, y, z };
-            //for dag
-            var edges = new List<Edge<char>>() { new Edge<char>(r, s, 5), new Edge<char>(r, t, 3),
-                new Edge<char>(s, x, 6), new Edge<char>(s, t, 2), new Edge<char>(t, x, 7), new Edge<char>(t, y, 5),
-                new Edge<char>(t, z, 2), new Edge<char>(x, z, 1), new Edge<char>(x, y, -1), new Edge<char>(y, z, -2) };
+            //var edges = new bool[,] { { true, false, false, false }, { false, true, true, true },
+            //    { false, true, true, false }, { true, false, true, true } };
+            //var graph = new GraphAM(edges);
+            //graph.TransitiveClosure();
+            #region comment
+            var maxInt = int.MaxValue / 2 - 200;
+            var weights = new int[5, 5] { { 0, 3, 8, maxInt, -4}, { maxInt, 0, maxInt, 1, 7 },
+                { maxInt, 4, 0, maxInt, maxInt }, { 2, maxInt, -5, 0, maxInt },
+                { maxInt, maxInt, maxInt, 6, 0 } };
+            var graph = new WeightedGraphAM(weights);
+            var result = graph.FloydWarshall();
+            //IVertex<char> r = new VertexSSSP<char>('r');
+            //IVertex<char> s = new VertexSSSP<char>('s');
+            //IVertex<char> t = new VertexSSSP<char>('t');
+            //IVertex<char> x = new VertexSSSP<char>('x');
+            //IVertex<char> y = new VertexSSSP<char>('y');
+            //IVertex<char> z = new VertexSSSP<char>('z');
+            //var vertices = new List<IVertex<char>>() { r, s, t, x, y, z };
+            ////for dag
+            //var edges = new List<Edge<char>>() { new Edge<char>(r, s, 5), new Edge<char>(r, t, 3),
+            //    new Edge<char>(s, x, 6), new Edge<char>(s, t, 2), new Edge<char>(t, x, 7), new Edge<char>(t, y, 5),
+            //    new Edge<char>(t, z, 2), new Edge<char>(x, z, 1), new Edge<char>(x, y, -1), new Edge<char>(y, z, -2) };
             //for bellman
             //var edges = new List<Edge<char>>() { new Edge<char>(s, t, 6), new Edge<char>(s, y, 7), 
             //    new Edge<char>(t, x, 5), new Edge<char>(t, z, -4), new Edge<char>(t, y, 8), new Edge<char>(y, x, -3), 
@@ -31,21 +42,20 @@ namespace Algorithms
             //var edges = new List<Edge<char>>() { new Edge<char>(s, t, 10), new Edge<char>(s, y, 5), 
             //    new Edge<char>(t, x, 1), new Edge<char>(t, y, 2), new Edge<char>(x, z, 4), new Edge<char>(y, x, 9), 
             //    new Edge<char>(y, t, 3), new Edge<char>(y, z, 2), new Edge<char>(z, x, 6), new Edge<char>(z, s, 7) };
-            var graph = new WeightedGraphAL<char>(vertices, edges);
+            //var graph = new WeightedGraphAL<char>(vertices, edges);
             //graph.Dijkstra(s);
-            graph.DagShortestPaths(s);
-            foreach (var vertex in graph.Vertices)
-            {
-                Console.WriteLine(vertex);
-            }
+            //graph.DagShortestPaths(s);
+            //foreach (var vertex in graph.Vertices)
+            //{
+            //    Console.WriteLine(vertex);
+            //}
             //if (graph.BellmanFord(s))
             //{
             //    foreach (var vertex in graph.Vertices)
             //    {
             //        Console.WriteLine(vertex);
             //    }
-            //}            
-            #region comment
+            //}
             //IVertex<char> a = new VertexMST<char>('a');
             //IVertex<char> b = new VertexMST<char>('b');
             //IVertex<char> c = new VertexMST<char>('c');

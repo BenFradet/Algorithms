@@ -70,12 +70,14 @@
     <Compile Include="Graph\Color.cs" />
     <Compile Include="Graph\Edge.cs" />
     <Compile Include="Graph\GraphAL.cs" />
+    <Compile Include="Graph\GraphAM.cs" />
     <Compile Include="Graph\IVertex.cs" />
     <Compile Include="Graph\VertexBFS.cs" />
     <Compile Include="Graph\VertexDFS.cs" />
     <Compile Include="Graph\VertexMST.cs" />
     <Compile Include="Graph\VertexSSSP.cs" />
     <Compile Include="Graph\WeightedGraphAL.cs" />
+    <Compile Include="Graph\WeightedGraphAM.cs" />
     <Compile Include="Sorting\BucketSortClass.cs" />
     <Compile Include="Sorting\CountingSortClass.cs" />
     <Compile Include="Sorting\InsertionSortClass.cs" />
